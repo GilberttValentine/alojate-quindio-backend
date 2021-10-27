@@ -8,7 +8,8 @@
     "dev": "ts-node-dev src/index.ts",
     "migrate": "npx knex migrate:latest --knexfile src/config/knexfile.ts",
     "migrate:down": "npx knex migrate:down  --knexfile src/config/knexfile.ts",
-    "migrate:rollback:all": "npx knex migrate:rollback --all  --knexfile src/config/knexfile.ts"
+    "migrate:rollback:all": "npx knex migrate:rollback --all  --knexfile src/config/knexfile.ts",
+    "seed":"npx knex seed:run --knexfile src/config/knexfile.ts"
   },
   "keywords": [],
   "author": "",

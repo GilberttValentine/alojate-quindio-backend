@@ -1,5 +1,6 @@
 import express from 'express'
-import { sayHello } from './Hello'
+import * as civilStatusController from './CivilStatusController'
+
 export const router = express.Router();
 
-router.get('/hello', sayHello);
+router.get('/civil_status', civilStatusController.getAllCivilStatus)
