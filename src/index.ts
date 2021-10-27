@@ -1,6 +1,9 @@
 import express from 'express'
 import cors from 'cors'
+import { database } from './config/database'
 import { router } from './controllers/routes';
+
+database()
 const app = express()
 
 app.use(cors());

@@ -6,9 +6,9 @@
   "scripts": {
     "build": "tsc",
     "dev": "ts-node-dev src/index.ts",
-    "migrate": "npx knex migrate:latest --knexfile src/config/database.ts",
-    "migrate:down": "npx knex migrate:down  --knexfile src/config/database.ts",
-    "migrate:rollback:all": "npx knex migrate:rollback --all  --knexfile src/config/database.ts"
+    "migrate": "npx knex migrate:latest --knexfile src/config/knexfile.ts",
+    "migrate:down": "npx knex migrate:down  --knexfile src/config/knexfile.ts",
+    "migrate:rollback:all": "npx knex migrate:rollback --all  --knexfile src/config/knexfile.ts"
   },
   "keywords": [],
   "author": "",

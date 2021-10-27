@@ -1,21 +1,8 @@
-import { Knex } from 'knex';
-import { knexSnakeCaseMappers } from 'objection'
-interface IKnexConfig {
-    [key: string]: Knex.Config;
-}
+import knex from 'knex';
+import config from './knexfile';
+import { Model } from 'objection';
 
-const db: IKnexConfig = {
-    development: {
-        client: 'pg',
-        connection: 'postgres://postgres:postgres@localhost:5432/quindio',
-        pool: { min: 1, max: 2 },
-        migrations: {
-            tableName: "knex_migrations"
-        },
-        seeds: {
-            directory: "./seeds"
-        },
-        ...knexSnakeCaseMappers
-    }
-};
-export default db;
+export function database() {
+    const db = knex(config.development);
+    Model.knex(db);
+}
