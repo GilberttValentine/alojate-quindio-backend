@@ -1,16 +1,14 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, response } from 'express';
 import * as LodgingService from "../services/lodgingService";
 
 export const createLodging = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { params, body } = req;
+  const { params, body } = req;
 
-    await LodgingService.createLodging(Number(params.userId), body.lodging);
-    res.status(200).send({ message: "Lodging created" });
-    
-  } catch (error: any) {
-    console.log({ error });
-    res.status(500).send({ error: error.message }).end();
-    next(error);
-  }
+  return LodgingService.createLodging(Number(params.userId), body.lodging)
+    .then((response) => res.send(response))
+    .catch((error) => {
+      console.log(`Error in LodgingController.createLodging: ${error.message}`);
+
+      return next(error);
+    });
 }
