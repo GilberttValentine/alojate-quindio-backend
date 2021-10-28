@@ -1,14 +1,13 @@
-const LodgingService = module.exports;
-
 import Lodging from "../models/schema/lodging";
-import { UserRepository } from '../repositories/userRepository';
+import * as UserRepository from '../repositories/userRepository';
 
-LodgingService.createLodging = async (userId: number, lodging: Lodging) => {
-  const user = await UserRepository.findById(userId);
+export const createLodging = async (userId: number, lodging: Lodging) => {
+  const user = Object.values(await UserRepository.findById(userId))[0];
 
-  if(!user) {
+  console.log(user);
+
+  if (!user) {
     throw new Error("User doesn't exist");
   }
 
-  
 };

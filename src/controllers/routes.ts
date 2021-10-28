@@ -6,6 +6,8 @@ import * as StudyLevelController from './studyLevelController';
 
 export const router = express.Router();
 
+router.post('users/:userId/lodging', )
+
 router.get('/civil-status', CivilStatusController.getAllCivilStatus);
 
 router.get('/roles', RoleController.getAllRoles);
