@@ -2,7 +2,7 @@
 lib/**/*.js
 lib/**/*.js.map
 dist
-.env
+*.env
 # TypeScript v1 declaration files
 typings/
 
