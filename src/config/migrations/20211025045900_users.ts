@@ -15,8 +15,8 @@ export async function up(knex: Knex): Promise<void> {
         table.boolean('actual_state');
         table.integer('stratum');
         table.integer('civil_status').references('id').inTable('civil_status');
-        table.integer('study_level').references('id').inTable('study_level');
-        table.integer('rol').references('id').inTable('rol');
+        table.integer('study_level').references('id').inTable('study_levels');
+        table.integer('role').references('id').inTable('roles');
         table.timestamps(true, true);
     })
 

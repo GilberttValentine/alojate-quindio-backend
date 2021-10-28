@@ -7,7 +7,7 @@ interface IKnexConfig {
 const config: IKnexConfig = {
     development: {
         client: 'pg',
-        connection: 'postgres://postgres:postgres@localhost:5432/quindio',
+        connection: 'postgres://postgres:postgres@localhost:5432/alojatequindio',
         pool: { min: 1, max: 2 },
         migrations: {
             tableName: "knex_migrations"
