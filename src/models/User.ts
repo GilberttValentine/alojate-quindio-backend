@@ -1,5 +1,5 @@
 import { Model } from 'objection';
-import StudyLevel from './studyLevel';
+import StudyLevel from './StudyLevel';
 import CivilStatus from './CivilStatus';
 import Rol from './Rol';
 
