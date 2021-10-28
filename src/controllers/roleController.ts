@@ -5,7 +5,6 @@ export const getAllRoles = async (req: Request, res: Response, next: NextFunctio
     try {
         const rol = await RoleService.getAllRoles();
         res.send({ message: rol });
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
         console.log({ error });
         res.status(500).send({ error: error.message }).end();
