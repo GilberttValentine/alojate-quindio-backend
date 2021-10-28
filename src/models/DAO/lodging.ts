@@ -1,10 +1,11 @@
 import { Model } from 'objection';
-import User from './User';
+import User from './user';
 
 export default class Lodging extends Model {
     static get tableName() {
         return 'lodgings';
     }
+
     static get relationMappings() {
         return {
             user: {

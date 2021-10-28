@@ -1,15 +1,15 @@
-import express from 'express'
-import * as civilStatusController from './CivilStatusController'
-import * as LanguageController from './LanguageController'
-import * as RolController from './RolController'
-import * as StudyLevelController from './StudyLevelController'
+import express from 'express';
+import * as CivilStatusController from './civilStatusController';
+import * as LanguageController from './languageController';
+import * as RoleController from './roleController';
+import * as StudyLevelController from './studyLevelController';
 
 export const router = express.Router();
 
-router.get('/civil_status', civilStatusController.getAllCivilStatus)
+router.get('/civil-status', CivilStatusController.getAllCivilStatus);
 
-router.get('/rols', RolController.getAllRol)
+router.get('/roles', RoleController.getAllRoles);
 
-router.get('/study_levels', StudyLevelController.getAllStudyLevels)
+router.get('/study-levels', StudyLevelController.getAllStudyLevels);
 
-router.get('/languages', LanguageController.getAllLanguages)
+router.get('/languages', LanguageController.getAllLanguages);

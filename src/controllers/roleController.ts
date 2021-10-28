@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import * as LanguageService from '../services/languageService';
+import * as RoleService from '../services/roleService';
 
-export const getAllLanguages = async (req: Request, res: Response, next: NextFunction) => {
+export const getAllRoles = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const languages = await LanguageService.getAllLanguages();
-        res.send({ message: languages })
+        const rol = await RoleService.getAllRoles();
+        res.send({ message: rol });
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
         console.log({ error });

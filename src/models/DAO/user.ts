@@ -1,7 +1,7 @@
 import { Model } from 'objection';
-import StudyLevel from './StudyLevel';
-import CivilStatus from './CivilStatus';
-import Rol from './Rol';
+import StudyLevel from './studyLevel';
+import CivilStatus from './civilStatus';
+import Role from './role';
 
 export default class User extends Model {
 
@@ -19,7 +19,7 @@ export default class User extends Model {
                     to: 'civil_status.id'
                 }
             },
-            Study_level: {
+            study_level: {
                 relation: Model.HasOneRelation,
                 modelClass: StudyLevel,
                 join: {
@@ -27,12 +27,12 @@ export default class User extends Model {
                     to: 'study_level.id'
                 }
             },
-            rol: {
+            role: {
                 relation: Model.HasOneRelation,
-                modelClass: Rol,
+                modelClass: Role,
                 join: {
-                    from: 'users.rol',
-                    to: 'rol.id'
+                    from: 'users.role',
+                    to: 'role.id'
                 }
             }
         }

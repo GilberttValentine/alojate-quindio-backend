@@ -1,8 +1,8 @@
 
-import * as languageRepository from '../repositories/LanguageRepository'
+import * as LanguageRepository from '../repositories/languageRepository';
 
 export const getAllLanguages = async (): Promise<object> => {
-    const languages = await languageRepository.getAllLanguages()
+    const languages = await LanguageRepository.getAllLanguages()
 
     if (Object.values(languages).length === 0) throw new Error('Languages not founded')
 

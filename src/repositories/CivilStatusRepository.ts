@@ -1,3 +1,3 @@
-import CivilStatus from '../models/CivilStatus';
+import CivilStatus from '../models/DAO/civilStatus';
 
-export const getAllCivilStatus = async (): Promise<object> => await CivilStatus.query()
+export const getAllCivilStatus = async (): Promise<object> => await CivilStatus.query();

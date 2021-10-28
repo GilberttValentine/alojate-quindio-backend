@@ -1,6 +1,6 @@
 import { Model } from 'objection';
-import Lodging from './Lodging';
-import Service from './Service';
+import Lodging from './lodging';
+import Service from './service';
 
 export default class ServiceLodging extends Model {
     static get tableName() {

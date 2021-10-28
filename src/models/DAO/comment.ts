@@ -1,10 +1,10 @@
 import { Model } from 'objection';
-import Language from './Language';
-import User from './User';
+import Lodging from './lodging';
+import User from './user';
 
-export default class HostLanguage extends Model {
+export default class Comment extends Model {
     static get tableName() {
-        return 'hosts_languages';
+        return 'comments';
     }
 
     static get relationMappings() {
@@ -13,16 +13,16 @@ export default class HostLanguage extends Model {
                 relation: Model.HasOneRelation,
                 modelClass: User,
                 join: {
-                    from: 'hosts_languages.user_id',
+                    from: 'comments.user_id',
                     to: 'users.id'
                 }
             },
-            language: {
+            lodging: {
                 relation: Model.HasOneRelation,
-                modelClass: Language,
+                modelClass: Lodging,
                 join: {
-                    from: 'hosts_languages.language_id',
-                    to: 'languages.id'
+                    from: 'comments.lodging_id',
+                    to: 'lodgings.id'
                 }
             },
 
