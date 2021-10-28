@@ -1,6 +1,7 @@
-import Lodging from "../models/schema/lodging";
+import Lodging from "../models/DAO/lodging";
+import * as LodgingRepository from "../repositories/lodgingRepository";
 import * as UserRepository from '../repositories/userRepository';
-import { NotFoundError } from "../utils/ErrorHandlerMiddleware";
+import { BusinessError, NotFoundError } from "../utils/ErrorHandlerMiddleware";
 
 export const createLodging = async (userId: number, lodging: Lodging) => {
   const user = await UserRepository.findById(userId);
@@ -10,7 +11,11 @@ export const createLodging = async (userId: number, lodging: Lodging) => {
   }
 
   if(!user.actual_state) {
-    throw new Error("User deactivate");
+    throw new BusinessError("User deactivate");
   }
 
+  lodging.user_id = user.id;
+  lodging.actual_state = true;
+
+  await LodgingRepository.create(lodging);
 };
