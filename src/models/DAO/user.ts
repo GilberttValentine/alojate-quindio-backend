@@ -24,7 +24,7 @@ export default class User extends Model {
                 modelClass: StudyLevel,
                 join: {
                     from: 'users.study_level',
-                    to: 'study_level.id'
+                    to: 'study_levels.id'
                 }
             },
             role: {
@@ -32,7 +32,7 @@ export default class User extends Model {
                 modelClass: Role,
                 join: {
                     from: 'users.role',
-                    to: 'role.id'
+                    to: 'roles.id'
                 }
             }
         }
