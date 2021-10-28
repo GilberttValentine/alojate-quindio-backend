@@ -7,18 +7,18 @@ export async function seed(knex: Knex): Promise<void> {
   // Inserts seed entries
   await knex("users").insert([
     {
-      firstName: "Pablo",
-      secondName: "Andrés",
-      firstLastname: "Guzmán",
-      secondLastname: "Ríos",
+      first_name: "Pablo",
+      second_name: "Andrés",
+      first_lastname: "Guzmán",
+      second_lastname: "Ríos",
       direction: "Dirección",
       email: "pablo@hotmail.com",
       password: "12345",
-      urlPicture: "url",
-      actualState: true,
+      url_picture: "url",
+      actual_state: true,
       stratum: 1,
-      civilStatus: 1,
-      studyLevel: 1,
+      civil_status: 1,
+      study_level: 1,
       role: 1
     },
   ]);
