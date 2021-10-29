@@ -4,6 +4,20 @@ import CivilStatus from './civilStatus';
 import Role from './role';
 
 export default class User extends Model {
+    id!:number;
+    first_name!: string;       
+    second_name!: string;     
+    first_lastname!: string;  
+    second_lastname!: string;   
+    direction!: string;    
+    email!: string;
+    password!: string;
+    url_picture!: string;        
+    actual_state!: boolean;        
+    stratum!: number;
+    civil_status!: number;
+    study_level!: number;
+    role!: number;
 
     static get tableName() {
         return 'users';

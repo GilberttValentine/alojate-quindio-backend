@@ -1,6 +1,6 @@
 import { Model } from 'objection';
-import Lodging from './Lodging';
-import User from './User';
+import Lodging from './lodging';
+import User from './user';
 
 export default class Reservation extends Model {
     static get tableName() {

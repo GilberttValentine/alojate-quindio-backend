@@ -1,5 +1,23 @@
+export function ErrorHandler(err:any, req:any, res:any, next:any) {
+  const logName = 'ErrorHandlerMiddleware.MainHandler';
+  const logger = req.log || console;
+
+  if (logger.error) {
+    logger.error(logName, `Error with message ${err.message} and stack: ${err.stack}`);
+  } else {
+    logger(logName, `Error with message ${err.message} and stack: ${err.stack}`);
+  }
+
+  const { status = 500, message = 'Error', code = 500 } = err;
+
+  res.status(status).send({ error: { message, code } });
+
+  return next();
+}
+
 export class CustomError extends Error {
   status: number
+  message: string
   code: number
   constructor(status = 500, message: string, code = 500) {
     super();

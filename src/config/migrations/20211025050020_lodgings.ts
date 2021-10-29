@@ -4,15 +4,16 @@ import { Knex } from "knex";
 export async function up(knex: Knex): Promise<void> {
     return knex.schema.createTable('lodgings', table => {
         table.increments('id').unique().notNullable();
+        table.string('name').notNullable();
         table.integer('user_id').references('id').inTable('users');
-        table.integer('persons_amount');
+        table.integer('persons_amount').notNullable();
         table.string('accesibility').notNullable();
         table.string('direction').notNullable();
-        table.integer('room_quantity');
-        table.integer('bed_quantity');
-        table.integer('bathroom_quantity');
-        table.string('description');
-        table.boolean('actual_state');
+        table.integer('room_quantity').notNullable();
+        table.integer('bed_quantity').notNullable();
+        table.integer('bathroom_quantity').notNullable();
+        table.string('description').notNullable();
+        table.boolean('actual_state').notNullable();
         table.float('night_value').notNullable();
         table.timestamps(true, true);
     });
