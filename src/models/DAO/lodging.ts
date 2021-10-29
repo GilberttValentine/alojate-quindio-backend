@@ -2,8 +2,8 @@ import { Model } from 'objection';
 import User from './user';
 
 export default class Lodging extends Model {
-    
     id!: number;
+    name!: string;
     user_id!: number;
     persons_amount!: number;
     accesibility!: string;

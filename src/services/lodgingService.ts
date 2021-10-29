@@ -19,3 +19,5 @@ export const createLodging = async (userId: number, lodging: Lodging) => {
 
   await LodgingRepository.create(lodging);
 };
+
+export const getAllLodgings = async() => await LodgingRepository.getAllLodgings();

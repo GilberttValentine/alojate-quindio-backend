@@ -4,7 +4,6 @@ import CivilStatus from './civilStatus';
 import Role from './role';
 
 export default class User extends Model {
-
     id!:number;
     first_name!: string;       
     second_name!: string;     
