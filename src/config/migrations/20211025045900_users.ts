@@ -18,12 +18,11 @@ export async function up(knex: Knex): Promise<void> {
         table.integer('study_level_id').references('id').inTable('study_levels');
         table.integer('role_id').references('id').inTable('roles');
         table.timestamps(true, true);
-    })
-
+    });
 }
 
 
 export async function down(knex: Knex): Promise<void> {
-    await knex.raw('DROP TABLE if exists users cascade')
+    await knex.raw('DROP TABLE if exists users cascade');
 }
 

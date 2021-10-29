@@ -1,10 +1,12 @@
 import { Model } from 'objection';
 import User from './user';
+import Municipality from './municipality';
 
 export default class Lodging extends Model {
     id!: number;
     name!: string;
     user_id!: number;
+    municipality_id!: number;
     persons_amount!: number;
     accesibility!: string;
     direction!: string;
@@ -14,8 +16,12 @@ export default class Lodging extends Model {
     description!: string;
     actual_state!: boolean;
     night_value!: number;
+<<<<<<< HEAD
     qualification!: number;
     
+=======
+
+>>>>>>> 209204d (uploading changes)
     static get tableName() {
         return 'lodgings';
     }
@@ -28,6 +34,14 @@ export default class Lodging extends Model {
                 join: {
                     from: 'lodgings.user_id',
                     to: 'users.id'
+                }
+            },
+            municipality: {
+                relation: Model.HasOneRelation,
+                modelClass: Municipality,
+                join: {
+                    from: 'lodgings.municipality_id',
+                    to: 'municipalities.id'
                 }
             }
         }

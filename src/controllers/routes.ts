@@ -5,15 +5,21 @@ import * as LanguageController from './languageController';
 import * as RoleController from './roleController';
 import * as StudyLevelController from './studyLevelController';
 import * as LodgingController from './lodgingController';
+<<<<<<< HEAD
 import * as UserController from './userController'
 import * as ReservationController from './reservationController';
 import * as CommentController from './commentController';
+=======
+import * as MunicipalityController from './municipalityController';
+import * as ServiceController from './serviceController';
+>>>>>>> 209204d (uploading changes)
 
 export const router = express.Router();
 
 router.get('/lodgings', LodgingController.getAllLodgings);
 
 router.post('/users/:userId/lodgings', LodgingController.createLodging);
+<<<<<<< HEAD
 router.post('/users', UserController.createUser)
 router.patch('/users/:userId/hosts', UserController.createHost)
 router.patch('/users/:userId/guests', UserController.createGuest)
@@ -36,8 +42,16 @@ router.post('/users/:userId/lodgings/:lodgingId/comments', CommentController.cre
 router.patch('/users/:userId/lodgings/:lodgingId/comments/:commentId', CommentController.editComment);
 router.delete('/users/:userId/lodgings/:lodgingId/comments/:commentId', CommentController.deleteComment);
 router.get('/lodgings/:lodgingId/comments', CommentController.listCommentsByLodging);
+=======
+router.patch('/users/:userId/lodgings/:lodgingId/deactivate', LodgingController.deactivateLodging);
+router.patch('/users/:userId/lodgings/:lodgingId/activate', LodgingController.activateLodging);
+
+router.get('/services', ServiceController.findAllServices);
+router.post('/services', ServiceController.createService);
+>>>>>>> 209204d (uploading changes)
 
 router.get('/civil-status', CivilStatusController.getAllCivilStatus);
 router.get('/roles', RoleController.getAllRoles);
 router.get('/study-levels', StudyLevelController.getAllStudyLevels);
 router.get('/languages', LanguageController.getAllLanguages);
+router.get('/municipalities', MunicipalityController.getAllMunicipalities);

@@ -1,13 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
 import * as RoleService from '../services/roleService';
+import { logger } from '../utils/logger';
 
 export const getAllRoles = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const rol = await RoleService.getAllRoles();
-        res.send({ message: rol });
+        const role = await RoleService.getAllRoles();
+
+        res.send({ message: role });
     } catch (error: any) {
-        console.log({ error });
-        res.status(500).send({ error: error.message }).end();
-        next(error);
+        const status = error.status || 500;
+
+        logger.error(`Error in RoleController.getAllRoles: ${error.message}`);
+        res.status(status).send({ 'status': error.status, 'message': error.message }).end();
     }
 }
