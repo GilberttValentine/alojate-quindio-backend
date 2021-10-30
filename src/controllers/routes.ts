@@ -17,7 +17,11 @@ import * as ServiceController from './serviceController';
 export const router = express.Router();
 
 router.get('/lodgings', LodgingController.getAllLodgings);
+<<<<<<< HEAD
 
+=======
+router.get('/lodgings/:lodgingId', LodgingController.getLodging);
+>>>>>>> 2c3dc96 (Uploading changes)
 router.post('/users/:userId/lodgings', LodgingController.createLodging);
 <<<<<<< HEAD
 router.post('/users', UserController.createUser)

@@ -1,41 +1,42 @@
 import { BusinessError, NotFoundError, UnauthorizedError } from "../utils/ErrorHandlerMiddleware";
 
 import Lodging from "../models/DAO/lodging";
-import Service from "../models/schema/service";
+import Service from "../models/DAO/service";
+import ServiceSchema from "../models/schema/service";
+import LodgingFilters from "../models/schema/lodgingFilters";
 
 import * as LodgingRepository from "../repositories/lodgingRepository";
 import * as UserRepository from '../repositories/userRepository';
 import * as MunicipalityRepository from '../repositories/municipalityRepository';
 import * as ServiceRepository from '../repositories/serviceRepository';
 import * as ServiceLodgingRepository from '../repositories/serviceLodgingRepository';
+import * as TypeLodgingRepository from '../repositories/typeLodgingRepository';
+import ServiceLodging from "../models/DAO/serviceLodging";
 
-export const createLodging = async (userId: number, lodging: Lodging, services: Array<Service>) => {
+export const createLodging = async (userId: number, lodging: Lodging, services: Array<ServiceSchema>) => {
   const user = await UserRepository.findById(userId);
 
-  if (!user) {
-    throw new NotFoundError("User doesn't exist");
-  }
+  if (!user) throw new NotFoundError("User doesn't exist");
 
-  if (!user.actual_state) {
-    throw new BusinessError("User deactivate");
-  }
+  if (!user.actual_state) throw new BusinessError("User deactivate");
 
   const municipality = await MunicipalityRepository.findById(lodging.municipality_id);
 
-  if (!municipality) {
-    throw new NotFoundError("Municipality doesn't exist");
-  }
+  if (!municipality) throw new NotFoundError("Municipality doesn't exist");
+
+  const type = await TypeLodgingRepository.findById(lodging.type_id);
+
+  if (!type) throw new NotFoundError("The type lodging doesn't exist");
 
   const serviceIds = services.map(it => it.id);
 
   const servicesLodging = await ServiceRepository.findServicesByIds(serviceIds);
 
-  if (servicesLodging.length === 0) {
-    throw new NotFoundError("Services not found");
-  }
+  if (servicesLodging.length === 0) throw new NotFoundError("Services not found");
 
   lodging.user_id = user.id;
   lodging.actual_state = true;
+  lodging.qualification = 1.0;
 
   const lodgingId = (await LodgingRepository.create(lodging)).id;
 
@@ -43,18 +44,47 @@ export const createLodging = async (userId: number, lodging: Lodging, services: 
     const serviceInfomation = services.find(it => it.id == service.id);
 
     const serviceLodging = {
-      service_id: serviceInfomation?.id,
+      service_id: Number(serviceInfomation?.id),
       lodging_id: lodgingId,
-      description: serviceInfomation?.description
-    }
+      description: String(serviceInfomation?.description)
+    };
 
     await ServiceLodgingRepository.create(serviceLodging);
   });
-
 };
 
-export const getAllLodgings = async () => {
-  return await LodgingRepository.getAllLodgings();
+export const getLodging = async (lodgingId: number) => {
+  const lodging = await LodgingRepository.findById(lodgingId);
+
+  if (!lodging) throw new NotFoundError("Lodging doesn't exist");
+
+  return lodging;
+}
+
+export const getAllLodgings = async (page: number, filters: LodgingFilters | null) => {
+  page = page || page >= 0 ? page : 0;
+
+  const pageLodgings = await LodgingRepository.getAllLodgings(page, filters);
+
+  const lodgingsIds = pageLodgings.results.map(it => it.id);
+
+  const listServices = await ServiceLodgingRepository.findServicesLodgingsByIds(lodgingsIds);
+
+  const results = await Promise.all(pageLodgings.results.map(async (it) => {
+    const serviceIds = listServices.filter(service => it.id == service.lodging_id).map(it => it.service_id);
+    const services = (await ServiceRepository.findServicesByIds(serviceIds)).map(service => service.name);
+    
+    it.services = services;
+    
+    return it;
+  }));
+
+  const lodgings = {
+    results,
+    total: pageLodgings.total
+  };
+
+  return lodgings;
 };
 
 export const deactivateLodging = async (userId: number, lodgingId: number) => {
@@ -70,9 +100,7 @@ export const deactivateLodging = async (userId: number, lodgingId: number) => {
 
   if (!lodging.actual_state) throw new BusinessError("The lodging already deactivate");
 
-  lodging.actual_state = false;
-
-  await LodgingRepository.update(lodgingId, lodging);
+  await LodgingRepository.updateActualState(lodgingId, false);
 }
 
 export const activateLodging = async (userId: number, lodgingId: number) => {
@@ -88,7 +116,5 @@ export const activateLodging = async (userId: number, lodgingId: number) => {
 
   if (lodging.actual_state) throw new BusinessError("The lodging already activate");
 
-  lodging.actual_state = true;
-
-  await LodgingRepository.update(lodgingId, lodging);
+  await LodgingRepository.updateActualState(lodgingId, true);
 }

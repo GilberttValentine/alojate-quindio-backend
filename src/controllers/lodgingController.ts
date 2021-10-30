@@ -18,13 +18,30 @@ export const createLodging = async (req: Request, res: Response, next: NextFunct
 
 export const getAllLodgings = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const response = await LodgingService.getAllLodgings();
+    const { body, query } = req;
+
+    const response = await LodgingService.getAllLodgings(Number(query.page), body.filters);
 
     res.send(response);
   } catch (error: any) {
     const status = error.status || 500;
 
     logger.error(`Error in LodgingController.getAllLodgings: ${error.message}`);
+
+    res.status(status).send({ 'status': error.status, 'message': error.message }).end();
+  }
+}
+
+export const getLodging = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { params } = req;
+    const response = await LodgingService.getLodging(Number(params.lodgingId));
+
+    res.send(response);
+  } catch (error: any) {
+    const status = error.status || 500;
+
+    logger.error(`Error in LodgingController.getLodging: ${error.message}`);
 
     res.status(status).send({ 'status': error.status, 'message': error.message }).end();
   }

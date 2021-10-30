@@ -1,12 +1,15 @@
 import { Model } from 'objection';
 import User from './user';
 import Municipality from './municipality';
+import TypeLodging from './typeLodging';
+import Service from './service';
 
 export default class Lodging extends Model {
     id!: number;
     name!: string;
     user_id!: number;
     municipality_id!: number;
+    type_id!: number;
     persons_amount!: number;
     accesibility!: string;
     direction!: string;
@@ -17,9 +20,14 @@ export default class Lodging extends Model {
     actual_state!: boolean;
     night_value!: number;
 <<<<<<< HEAD
+<<<<<<< HEAD
     qualification!: number;
     
 =======
+=======
+    qualification!: number;
+    services!: Array<string>;
+>>>>>>> 2c3dc96 (Uploading changes)
 
 >>>>>>> 209204d (uploading changes)
     static get tableName() {
@@ -42,6 +50,14 @@ export default class Lodging extends Model {
                 join: {
                     from: 'lodgings.municipality_id',
                     to: 'municipalities.id'
+                }
+            },
+            type: {
+                relation: Model.HasOneRelation,
+                modelClass: TypeLodging,
+                join: {
+                    from: 'lodgings.type_id',
+                    to: 'types_lodging.id'
                 }
             }
         }
