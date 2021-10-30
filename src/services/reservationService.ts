@@ -4,8 +4,8 @@ import * as ReservationRepository from '../repositories/reservationRepository'
 import { BusinessError, NotFoundError, UnauthorizedError } from "../utils/ErrorHandlerMiddleware";
 import Reservation from "../models/DAO/reservation";
 import { Page } from "objection";
-import { ADMIN_ROLE_ID, GUEST_ROLE_ID, HOSTGUEST_ROLE_ID, HOST_ROLE_ID, USER_ROLE_ID } from '../utils/enums/rolesEnum';
-import { PENDING, IN_COURSE, FINISHED, CANCELLED } from '../utils/enums/reservationStateEnum';
+import { ADMIN_ROLE_ID, GUEST_ROLE_ID, HOSTGUEST_ROLE_ID, HOST_ROLE_ID, USER_ROLE_ID } from '../utils/constants/reservationConstants/rolesConstants';
+import { PENDING, IN_COURSE, FINISHED, CANCELLED } from '../utils/constants/reservationConstants/reservationStatesConstants';
 
 export const createReservation = async (userId: number, lodgingId: number, reservation: Reservation) => {
   const user = await UserRepository.findById(userId);

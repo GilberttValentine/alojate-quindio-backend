@@ -2,23 +2,23 @@ import { Page } from "objection";
 import Comment from "../models/DAO/comment";
 import CommentsFilters from "../models/requests/listCommentsLodgingFilters";
 
-export const create = (comment: Comment) => Comment.query().insert(comment);
+export const create = async(comment: Comment) => await Comment.query().insert(comment);
 
-export const getAllReviews = (lodgingId: number): Promise<Comment[]> => {
-  return Comment.query().column('quality','veracity', 'cleaning', 'ubication').where('lodging_id', lodgingId)
+export const getAllReviews = async(lodgingId: number): Promise<Comment[]> => {
+  return await Comment.query().column('quality','veracity', 'cleaning', 'ubication').where('lodging_id', lodgingId)
 }
 
-export const findById = (id: number): Promise<Comment> => {
-  return Comment.query().findById(id);
+export const findById = async(id: number): Promise<Comment> => {
+  return await Comment.query().findById(id);
 }
 
-export const editComment = (id: number, description: string) => {
-  return Comment.query().patch({ description: description }).findById(id)
+export const editComment = async(id: number, description: string) => {
+  await Comment.query().patch({ description: description }).findById(id)
 }
 
-export const deleteComment = (id: number) => Comment.query().deleteById(id)
+export const deleteComment = async(id: number) =>  await Comment.query().deleteById(id)
 
-export const listCommentsByLodging = (lodgingId: number, filters: CommentsFilters, page?: number): Promise<Page<Comment>> => {
+export const listCommentsByLodging = async(lodgingId: number, filters: CommentsFilters, page?: number): Promise<Page<Comment>> => {
   let comments = Comment.query().where("lodging_id", lodgingId);
 
   if(filters.user_id) comments = comments.where("user_id", filters.user_id);
@@ -31,5 +31,5 @@ export const listCommentsByLodging = (lodgingId: number, filters: CommentsFilter
   
   if(filters.cleaning_under) comments = comments.whereComposite("cleaning", "<=", filters.cleaning_under);
   
-  return comments.page(page?page:0, 10);
+  return await comments.page(page?page:0, 10);
 }

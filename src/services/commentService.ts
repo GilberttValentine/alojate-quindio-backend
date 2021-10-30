@@ -5,7 +5,7 @@ import * as CommentRepository from '../repositories/commentRepository'
 import * as ReservationRepository from '../repositories/reservationRepository'
 import { BusinessError, NotFoundError, UnauthorizedError } from "../utils/ErrorHandlerMiddleware";
 import { Page } from "objection";
-import { ADMIN_ROLE_ID, GUEST_ROLE_ID, HOSTGUEST_ROLE_ID, HOST_ROLE_ID, USER_ROLE_ID } from '../utils/enums/rolesEnum';
+import { ADMIN_ROLE_ID, GUEST_ROLE_ID, HOSTGUEST_ROLE_ID, HOST_ROLE_ID, USER_ROLE_ID } from '../utils/constants/reservationConstants/rolesConstants';
 import CommentsFilters from "../models/requests/listCommentsLodgingFilters";
 
 export const createComment = async (userId: number, lodgingId: number, comment: Comment) => {
