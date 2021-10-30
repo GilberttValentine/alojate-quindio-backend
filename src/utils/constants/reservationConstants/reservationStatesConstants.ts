@@ -1,4 +1,4 @@
-export const PENDING = 0
-export const IN_COURSE = 1
-export const FINISHED = 2
-export const CANCELLED = 3
+export const PENDING = 1
+export const IN_COURSE = 2
+export const FINISHED = 3
+export const CANCELLED = 4

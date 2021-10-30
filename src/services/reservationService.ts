@@ -75,7 +75,7 @@ export const cancelReservation = async (userId: number, reservationId: number) =
 
   if ((user.role == HOST_ROLE_ID || user.role == HOSTGUEST_ROLE_ID) && lodging.user_id != userId) throw new UnauthorizedError("User doesn't have those permissions");
 
-  await ReservationRepository.changeReservationState(reservationId, 3);
+  await ReservationRepository.changeReservationState(reservationId, CANCELLED);
 }
 
 export const findReservation = async (userId: number, reservationId: number): Promise<Reservation> => {
