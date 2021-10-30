@@ -5,6 +5,7 @@ import { BusinessError, NotFoundError, UnauthorizedError } from "../utils/ErrorH
 import Reservation from "../models/DAO/reservation";
 import { Page } from "objection";
 import { ADMIN_ROLE_ID, GUEST_ROLE_ID, HOSTGUEST_ROLE_ID, HOST_ROLE_ID, USER_ROLE_ID } from '../utils/enums/rolesEnum';
+import { PENDING, IN_COURSE, FINISHED, CANCELLED } from '../utils/enums/reservationStateEnum';
 
 export const createReservation = async (userId: number, lodgingId: number, reservation: Reservation) => {
   const user = await UserRepository.findById(userId);
@@ -31,7 +32,7 @@ export const createReservation = async (userId: number, lodgingId: number, reser
   reservation.user_id = userId;
   reservation.lodging_id = lodgingId;
   reservation.night_value = lodging.night_value;
-  reservation.actual_state = 0;
+  reservation.actual_state = PENDING;
 
   await ReservationRepository.create(reservation);
 };
@@ -64,7 +65,7 @@ export const cancelReservation = async (userId: number, reservationId: number) =
 
   if(!reservation) throw new NotFoundError("Reservation doesn't exist");
   
-  if(reservation.actual_state != 0) throw new BusinessError("Reservation cannot be canceled");
+  if(reservation.actual_state != PENDING) throw new BusinessError("Reservation cannot be canceled");
 
   if (user.role == USER_ROLE_ID ) throw new UnauthorizedError("User doesn't have those permissions");
 
@@ -151,16 +152,12 @@ export const changeTodayReservationsStates = async () => {
   const endReservations = await ReservationRepository.todayFinalizeReservations(today);
   const startReservations = await ReservationRepository.todayStartReservations(today);
 
-  await endReservations.forEach(element => {
-    ReservationRepository.changeReservationState(element.id, 2)
-  });
-
   startReservations.forEach(async(element) => {
-    await ReservationRepository.changeReservationState(element.id, 2)
+    await ReservationRepository.changeReservationState(element.id, IN_COURSE)
   });
 
   endReservations.forEach(async(element) => {
-    await ReservationRepository.changeReservationState(element.id, 3)
+    await ReservationRepository.changeReservationState(element.id, FINISHED)
   });
 }
 

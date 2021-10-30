@@ -1,5 +1,6 @@
 import { Page } from "objection";
 import Reservation from "../models/DAO/reservation";
+import { CANCELLED } from "../utils/enums/reservationStateEnum";
 import { logger } from "../utils/logger";
 
 export const create = (reservation: Reservation) => {
@@ -8,10 +9,12 @@ export const create = (reservation: Reservation) => {
 
 export const validateLodgingDisponibility = (id_lodging: number, startDate: Date, endDate: Date): Promise<Reservation[]> => {
   return Reservation.query().where('lodging_id', id_lodging)
-  .whereComposite("start_date","<", startDate)
-  .whereComposite("end_date",">", endDate)
-  .orWhereBetween("start_date", [startDate, endDate])
-  .orWhereBetween("end_date", [startDate, endDate])
+  .whereNot("actual_state", CANCELLED)
+  .where(builder => {
+    builder.where(builderI => builderI.whereComposite("start_date","<", startDate).whereComposite("end_date",">", endDate))
+    .orWhereBetween("start_date", [startDate, endDate])
+    .orWhereBetween("end_date", [startDate, endDate])
+  })
 }
 
 export const changeReservationState = (id: number, state: number) => {

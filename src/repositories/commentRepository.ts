@@ -16,9 +16,7 @@ export const editComment = (id: number, description: string) => {
   return Comment.query().patch({ description: description }).findById(id)
 }
 
-export const deleteComment = (id: number) => {
-  return Comment.query().deleteById(id)
-}
+export const deleteComment = (id: number) => Comment.query().deleteById(id)
 
 export const listCommentsByLodging = (lodgingId: number, filters: CommentsFilters, page?: number): Promise<Page<Comment>> => {
   let comments = Comment.query().where("lodging_id", lodgingId);

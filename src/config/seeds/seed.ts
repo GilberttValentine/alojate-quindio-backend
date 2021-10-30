@@ -74,7 +74,7 @@ export async function seed(knex: Knex): Promise<void> {
       description: "Casa familiar",
       actual_state: true,
       night_value: 100000,
-      score: 4
+      qualification: 4
     }
   ]);
 

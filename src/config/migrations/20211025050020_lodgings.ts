@@ -15,7 +15,7 @@ export async function up(knex: Knex): Promise<void> {
         table.string('description').notNullable();
         table.boolean('actual_state').notNullable();
         table.float('night_value').notNullable();
-        table.float('score').notNullable();
+        table.float('qualification').notNullable();
         table.timestamps(true, true);
     });
 }
