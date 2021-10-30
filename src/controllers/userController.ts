@@ -50,3 +50,19 @@ export const createGuest = async (req: Request, res: Response, next: NextFunctio
         return next(error)
     }
 }
+
+export const updateUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { body, params } = req;
+        const response = await userService.updateUser(parseInt(params.userId), body);
+
+        res.send(response);
+    } catch (error: any) {
+        const status = error.status || 500;
+
+        logger.error(`Error in userController.updateUser: ${error.message}`);
+
+        res.status(status).send({ 'status': error.status, 'message': error.message }).end();
+        return next(error)
+    }
+}

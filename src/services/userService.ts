@@ -70,7 +70,7 @@ export const createGuest = async (id: number, stratum: number, studyLevelId: num
 
     if (userToFind.role_id === GUEST_ROLE_ID || userToFind.role_id === HOSTGUEST_ROLE_ID) throw new BusinessError('User already exist as guest')
 
-    if (stratum < 0 || stratum >= 7) throw new BusinessError('Stratum is invalid')
+    if (stratum < 0 || stratum >= 7) throw new BusinessError('Stratum is not valid')
 
     userToFind.role_id = (userToFind.role_id === HOST_ROLE_ID) ? HOSTGUEST_ROLE_ID : GUEST_ROLE_ID
 
@@ -82,4 +82,25 @@ export const createGuest = async (id: number, stratum: number, studyLevelId: num
     }
 
     await UserRepository.createGuest(id, updatedGuest)
+}
+
+export const updateUser = async (id: number, user: UserShape) => {
+
+    const userToFind = await UserRepository.findById(id);
+
+    if (!userToFind) throw new NotFoundError('User not founded')
+
+    const civilStatusToFind = await CivinStatusRepository.findById(user.civil_status_id);
+
+    if (!civilStatusToFind) throw new NotFoundError('Civil status not founded')
+
+    const studyLevelToFind = await StudyLevelRepository.findById(user.study_level_id)
+
+    if (!studyLevelToFind) throw new NotFoundError('Study level not founded')
+
+    if (user.stratum < 0 || user.stratum >= 7) throw new BusinessError('Stratum is not valid')
+
+    user.password = await hashSomePassowrd(user.password)
+
+    await UserRepository.updateUser(id, user)
 }

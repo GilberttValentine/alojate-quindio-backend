@@ -9,3 +9,5 @@ export const createUser = async (user: UserShape) => await User.query().insert(u
 export const createHost = async (id: number, user: UserShape) => await User.query().findById(id).patch(user)
 
 export const createGuest = async (id: number, user: UserShape) => await User.query().findById(id).patch(user)
+
+export const updateUser = async (id: number, user: UserShape) => await User.query().findById(id).patch(user)

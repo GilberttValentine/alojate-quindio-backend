@@ -11,8 +11,9 @@ export const router = express.Router();
 router.get('/lodgings', LodgingController.getAllLodgings);
 router.post('/users/:userId/lodgings', LodgingController.createLodging);
 router.post('/users', UserController.createUser)
-router.post('/users/:userId/hosts', UserController.createHost)
-router.post('/users/:userId/guests', UserController.createGuest)
+router.patch('/users/:userId/hosts', UserController.createHost)
+router.patch('/users/:userId/guests', UserController.createGuest)
+router.put('/users/:userId',UserController.updateUser )
 
 router.get('/civil-status', CivilStatusController.getAllCivilStatus);
 router.get('/roles', RoleController.getAllRoles);
