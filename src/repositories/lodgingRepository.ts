@@ -40,7 +40,7 @@ export const getAllLodgings = async (page: number, filters: LodgingFilters | nul
 
       //if (filters.qualification) builder.andWhere('qualification', filters.qualification);
     }
-  }).page(page ? page : 0, 3).orderBy('id', 'asc');
+  }).page(page ? page : 0, 10).orderBy('id', 'asc');
 
   return await lodgins;
 }
