@@ -1,5 +1,7 @@
 import User, { UserShape } from "../models/DAO/user";
 
+export const findAllUsers = async (page: number): Promise<object> => await User.query().page(page, 10)
+
 export const findById = async (id: number): Promise<UserShape> => await User.query().findById(id);
 
 export const findByMail = async (mail: string): Promise<UserShape> => await User.query().where('email', mail).first();
