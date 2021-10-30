@@ -9,7 +9,7 @@ export async function up(knex: Knex): Promise<void> {
         table.float('quality').notNullable();
         table.float('veracity').notNullable();
         table.float('cleaning').notNullable();
-        table.string('direction').notNullable();
+        table.float('ubication').notNullable();
         table.string('description');
         table.timestamps(true, true);
     })

@@ -9,7 +9,7 @@ export async function up(knex: Knex): Promise<void> {
         table.timestamp('start_date').notNullable();
         table.timestamp('end_date').notNullable();
         table.float('night_value').notNullable();
-        table.boolean('actual_state');
+        table.integer('actual_state');
         table.timestamps(true, true);
     })
 

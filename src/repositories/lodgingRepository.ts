@@ -7,3 +7,11 @@ export const create = (lodging: Lodging) => {
 export const getAllLodgings = () => {
   return Lodging.query();
 }
+
+export const findById = (id: number) => {
+  return Lodging.query().findById(id);
+}
+
+export const recalculateScore = (idLodging: number, score: number) => {
+  return Lodging.query().patch({ qualification: score }).findById(idLodging)
+}

@@ -14,6 +14,7 @@ export default class Lodging extends Model {
     description!: string;
     actual_state!: boolean;
     night_value!: number;
+    qualification!: number;
     
     static get tableName() {
         return 'lodgings';
