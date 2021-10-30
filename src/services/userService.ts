@@ -11,6 +11,8 @@ import * as HostLanguageRepository from '../repositories/HostLanguageRepository'
 import { BusinessError, NotFoundError } from "../utils/ErrorHandlerMiddleware";
 import { HOST_ROLE_ID, GUEST_ROLE_ID, HOSTGUEST_ROLE_ID, USER_ID, DEFAULT_CIVIL_STATUS_ID, DEFAULT_STUDY_LEVEL_ID } from '../utils/userUtils/modelsUtils/userConstants'
 import { deleteDuplicatedElementsOfNumericArray } from '../utils/userUtils/serviceUtils/createHostFunctions'
+import { hashSomePassowrd } from '../utils/security/securityUtils';
+
 
 export const createUser = async (user: UserShape) => {
 
@@ -18,6 +20,7 @@ export const createUser = async (user: UserShape) => {
 
     if (userToFind) throw new BusinessError('User already exist')
 
+    user.password = await hashSomePassowrd(user.password)
     user.stratum = 0
     user.civil_status_id = DEFAULT_CIVIL_STATUS_ID
     user.study_level_id = DEFAULT_STUDY_LEVEL_ID
@@ -67,7 +70,7 @@ export const createGuest = async (id: number, stratum: number, studyLevelId: num
 
     if (userToFind.role_id === GUEST_ROLE_ID || userToFind.role_id === HOSTGUEST_ROLE_ID) throw new BusinessError('User already exist as guest')
 
-    if (stratum < 0 || stratum > 7) throw new BusinessError('Stratum is invalid')
+    if (stratum < 0 || stratum >= 7) throw new BusinessError('Stratum is invalid')
 
     userToFind.role_id = (userToFind.role_id === HOST_ROLE_ID) ? HOSTGUEST_ROLE_ID : GUEST_ROLE_ID
 
