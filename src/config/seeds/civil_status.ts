@@ -7,7 +7,8 @@ export async function seed(knex: Knex): Promise<void> {
 
     // Inserts seed entries
     await knex("civil_status").insert([
-        { name: "single" },
-        { name: "married" }
+        {id:1, name: "single" },
+        {id:2, name: "married" },
+        {id:3, name: "none" }
     ]);
 }
