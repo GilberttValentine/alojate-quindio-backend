@@ -8,7 +8,7 @@ export const findByMail = async (mail: string): Promise<UserShape> => await User
 
 export const createUser = async (user: UserShape) => await User.query().insert(user)
 
-export const createHost = async (id: number, user: UserShape) => await User.query().findById(id).patch(user)
+export const createHost = async (id: number, role: number) => await User.query().findById(id).patch({ role_id: role })
 
 export const createGuest = async (id: number, user: UserShape) => await User.query().findById(id).patch(user)
 

@@ -8,10 +8,12 @@ import * as StudyLevelRepository from '../repositories/studyLevelRepository';
 import * as LanguageRepository from '../repositories/languageRepository';
 import * as HostLanguageRepository from '../repositories/HostLanguageRepository';
 
-import { BusinessError, NotFoundError } from "../utils/ErrorHandlerMiddleware";
-import { HOST_ROLE_ID, GUEST_ROLE_ID, HOSTGUEST_ROLE_ID, USER_ID, DEFAULT_CIVIL_STATUS_ID, DEFAULT_STUDY_LEVEL_ID, DEFAULT_STRATUM } from '../utils/userUtils/modelsUtils/userConstants'
+import { BusinessError, NotFoundError, UnauthorizedError } from "../utils/ErrorHandlerMiddleware";
+import { HOST_ROLE_ID, GUEST_ROLE_ID, HOSTGUEST_ROLE_ID, ADMIN_ROLE_ID, USER_ID, DEFAULT_CIVIL_STATUS_ID, DEFAULT_STUDY_LEVEL_ID, DEFAULT_STRATUM } from '../utils/userUtils/modelsUtils/userConstants'
 import { deleteDuplicatedElementsOfNumericArray } from '../utils/userUtils/serviceUtils/createHostFunctions'
 import { hashSomePassowrd } from '../utils/security/securityUtils';
+
+import * as EmailValidator from 'email-validator';
 
 
 export const createUser = async (user: UserShape) => {
@@ -19,6 +21,9 @@ export const createUser = async (user: UserShape) => {
     const userToFind = await UserRepository.findByMail(user.email);
 
     if (userToFind) throw new BusinessError('User already exist')
+
+
+    if (!EmailValidator.validate(user.email)) throw new BusinessError('Email is not valid.');
 
     user.password = await hashSomePassowrd(user.password)
     user.stratum = DEFAULT_STRATUM
@@ -34,6 +39,8 @@ export const createHost = async (id: number, languagesIdList: number[]) => {
 
     if (!userToFind) throw new NotFoundError('User not founded')
 
+    if (userToFind.role_id === ADMIN_ROLE_ID) throw new UnauthorizedError('Unreachable request')
+
     if (userToFind.role_id === HOST_ROLE_ID || userToFind.role_id === HOSTGUEST_ROLE_ID) throw new BusinessError('User already exist as host')
 
     languagesIdList = deleteDuplicatedElementsOfNumericArray(languagesIdList)
@@ -44,9 +51,7 @@ export const createHost = async (id: number, languagesIdList: number[]) => {
 
     if (validLanguagesList.length === 0) throw new BusinessError('Languages not founded')
 
-    userToFind.role_id = (userToFind.role_id === GUEST_ROLE_ID) ? HOSTGUEST_ROLE_ID : HOST_ROLE_ID
-
-    await UserRepository.createHost(id, userToFind)
+    await UserRepository.createHost(id, (userToFind.role_id === GUEST_ROLE_ID) ? HOSTGUEST_ROLE_ID : HOST_ROLE_ID)
 
     validLanguagesList.forEach(async (it: Language) => {
         const hostLanguage: HostLanguageShape = { user_id: userToFind.id, language_id: it.id }
@@ -59,6 +64,8 @@ export const createGuest = async (id: number, stratum: number, studyLevelId: num
     const userToFind = await UserRepository.findById(id);
 
     if (!userToFind) throw new NotFoundError('User not founded')
+
+    if (userToFind.role_id === ADMIN_ROLE_ID) throw new UnauthorizedError('Unreachable request')
 
     const civilStatusToFind = await CivilStatusRepository.findById(civilStatusId);
 
@@ -91,6 +98,8 @@ export const updateUser = async (id: number, user: UserShape) => {
 
     if (!userToFind) throw new NotFoundError('User not founded')
 
+    if (userToFind.role_id === ADMIN_ROLE_ID) throw new UnauthorizedError('Unreachable request')
+
     user = {
         ...user,
         password: await hashSomePassowrd(user.password),
@@ -107,6 +116,8 @@ export const updateHost = async (id: number, languagesIdList: number[]) => {
     const userToFind = await UserRepository.findById(id);
 
     if (!userToFind) throw new NotFoundError('User not founded')
+
+    if (userToFind.role_id === ADMIN_ROLE_ID) throw new UnauthorizedError('Unreachable request')
 
     if (userToFind.role_id !== HOST_ROLE_ID && userToFind.role_id !== HOSTGUEST_ROLE_ID) throw new BusinessError('User is not a host')
 
@@ -136,6 +147,8 @@ export const updateGuest = async (id: number, stratum: number, studyLevelId: num
 
     if (!userToFind) throw new NotFoundError('User not founded')
 
+    if (userToFind.role_id === ADMIN_ROLE_ID) throw new UnauthorizedError('Unreachable request')
+
     if (userToFind.role_id !== GUEST_ROLE_ID && userToFind.role_id !== HOSTGUEST_ROLE_ID) throw new BusinessError('User is not a guest')
 
     const civilStatusToFind = await CivilStatusRepository.findById(civilStatusId);
@@ -162,6 +175,8 @@ export const activateUser = async (id: number) => {
 
     if (!userToFind) throw new NotFoundError('User not founded')
 
+    if (userToFind.role_id === ADMIN_ROLE_ID) throw new UnauthorizedError('Unreachable request')
+
     if (userToFind.actual_state === true) throw new BusinessError('User is already active')
 
     userToFind.actual_state = true
@@ -175,6 +190,8 @@ export const deactivateUser = async (id: number) => {
 
     if (!userToFind) throw new NotFoundError('User not founded')
 
+    if (userToFind.role_id === ADMIN_ROLE_ID) throw new UnauthorizedError('Unreachable request')
+
     if (userToFind.actual_state === false) throw new BusinessError('User is already deactivated')
 
     userToFind.actual_state = false
@@ -185,6 +202,8 @@ export const deactivateUser = async (id: number) => {
 export const findUserById = async (id: number): Promise<UserShape> => {
 
     const userToFind = await UserRepository.findById(id);
+
+    if (userToFind.role_id === ADMIN_ROLE_ID) throw new UnauthorizedError('Unreachable request')
 
     if (!userToFind) throw new NotFoundError('User not founded')
 

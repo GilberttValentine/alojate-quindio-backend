@@ -1,11 +1,12 @@
 import express from 'express';
 import cors from 'cors';
+
 import { database } from './config/database';
 import { router } from './controllers/routes';
 import { ErrorHandler } from './utils/ErrorHandlerMiddleware';
 
 database();
-const app = express();
+export const app = express();
 const port = 3000;
 
 app.use(cors());
@@ -15,6 +16,6 @@ app.use('/api', router);
 
 app.use(ErrorHandler);
 
-app.listen(port, () => {
+export const server = app.listen(port, () => {
     console.log(`Server on port ${port}`);
 })
