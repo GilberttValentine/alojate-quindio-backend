@@ -1,7 +1,7 @@
 export default class commentsFilters{
 	user_id?: number;
-	quality_under?: number;
-	veracity_under?: number;
-  cleaning_under?: number;
-	ubication_under?: number;
+	quality_greater?: number;
+	veracity_greater?: number;
+  cleaning_greater?: number;
+	ubication_greater?: number;
 }

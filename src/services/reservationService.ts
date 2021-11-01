@@ -47,7 +47,9 @@ export const validateLodgingDisponibility = async (lodgingId: number, startDate:
   
   if(!lodging.actual_state) throw new BusinessError("Lodging is deactivate");
 
-  if(startDate >= endDate) throw new BusinessError("Invalid time lapse");
+  if(Date.parse(endDate.toString()) <= Date.parse(startDate.toString())){
+    throw new BusinessError("Invalid time lapse");
+  }
 
   const reservationsCrossed = await ReservationRepository
   .validateLodgingDisponibility(lodgingId, startDate, endDate);

@@ -23,13 +23,13 @@ export const listCommentsByLodging = async(lodgingId: number, filters: CommentsF
 
   if(filters.user_id) comments = comments.where("user_id", filters.user_id);
   
-  if(filters.veracity_under) comments = comments.whereComposite("veracity", "<=", filters.veracity_under);
+  if(filters.veracity_greater) comments = comments.whereComposite("veracity", ">=", filters.veracity_greater);
   
-  if(filters.quality_under) comments = comments.whereComposite("quality", "<=", filters.quality_under);
+  if(filters.quality_greater) comments = comments.whereComposite("quality", ">=", filters.quality_greater);
   
-  if(filters.ubication_under) comments = comments.whereComposite("ubication", "<=", filters.ubication_under);
+  if(filters.ubication_greater) comments = comments.whereComposite("ubication", ">=", filters.ubication_greater);
   
-  if(filters.cleaning_under) comments = comments.whereComposite("cleaning", "<=", filters.cleaning_under);
+  if(filters.cleaning_greater) comments = comments.whereComposite("cleaning", ">=", filters.cleaning_greater);
   
   return await comments.page(page?page:0, 10);
 }
