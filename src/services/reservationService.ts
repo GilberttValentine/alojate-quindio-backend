@@ -6,6 +6,7 @@ import Reservation from "../models/DAO/reservation";
 import { Page } from "objection";
 import { ADMIN_ROLE_ID, GUEST_ROLE_ID, HOSTGUEST_ROLE_ID, HOST_ROLE_ID, USER_ROLE_ID } from '../utils/constants/reservationConstants/rolesConstants';
 import { PENDING, IN_COURSE, FINISHED, CANCELLED } from '../utils/constants/reservationConstants/reservationStatesConstants';
+import { logger } from "../utils/logger";
 
 export const createReservation = async (userId: number, lodgingId: number, reservation: Reservation) => {
   const user = await UserRepository.findById(userId);
@@ -22,7 +23,9 @@ export const createReservation = async (userId: number, lodgingId: number, reser
   
   if(!lodging.actual_state) throw new BusinessError("Lodging is deactivate");
   
-  if(reservation.start_date >= reservation.end_date) throw new BusinessError("Invalid time lapse");
+  if(Date.parse(reservation.end_date.toString()) <= Date.parse(reservation.start_date.toString())){
+    throw new BusinessError("Invalid time lapse");
+  }
 
   const reservationsCrossed = await ReservationRepository
   .validateLodgingDisponibility(lodgingId, reservation.start_date, reservation.end_date);
