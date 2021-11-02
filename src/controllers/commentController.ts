@@ -14,6 +14,8 @@ export const createComment = async (req: Request, res: Response, next: NextFunct
     logger.error(`Error in CommentController.createComment: ${error.message}`);
 
     res.status(status).send({ 'status': error.status, 'message': error.message }).end();
+    
+    return next(error)
   }
 }
 
@@ -29,6 +31,8 @@ export const editComment = async (req: Request, res: Response, next: NextFunctio
     logger.error(`Error in CommentController.editComment: ${error.message}`);
 
     res.status(status).send({ 'status': error.status, 'message': error.message }).end();
+    
+    return next(error)
   }
 }
 
@@ -44,6 +48,8 @@ export const deleteComment = async (req: Request, res: Response, next: NextFunct
     logger.error(`Error in CommentController.deleteComment: ${error.message}`);
 
     res.status(status).send({ 'status': error.status, 'message': error.message }).end();
+    
+    return next(error)
   }
 }
 
@@ -59,5 +65,7 @@ export const listCommentsByLodging = async (req: Request, res: Response, next: N
     logger.error(`Error in CommentController.listCommentsByLodging: ${error.message}`);
 
     res.status(status).send({ 'status': error.status, 'message': error.message }).end();
+    
+    return next(error)
   }
 }

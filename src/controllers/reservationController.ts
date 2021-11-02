@@ -14,6 +14,8 @@ export const createReservation = async (req: Request, res: Response, next: NextF
     logger.error(`Error in ReservationController.createReservation: ${error.message}`);
 
     res.status(status).send({ 'status': error.status, 'message': error.message }).end();
+    
+    return next(error)
   }
 }
 
@@ -29,6 +31,8 @@ export const validateLodgingDisponibility = async (req: Request, res: Response, 
     logger.error(`Error in ReservationController.validateLodgingDisponibility: ${error.message}`);
 
     res.status(status).send({ 'status': error.status, 'message': error.message }).end();
+    
+    return next(error)
   }
 }
 
@@ -44,6 +48,8 @@ export const cancelReservation = async (req: Request, res: Response, next: NextF
     logger.error(`Error in ReservationController.cancelReservation: ${error.message}`);
 
     res.status(status).send({ 'status': error.status, 'message': error.message }).end();
+    
+    return next(error)
   }
 }
 
@@ -59,6 +65,8 @@ export const findReservation = async (req: Request, res: Response, next: NextFun
     logger.error(`Error in ReservationController.findReservation: ${error.message}`);
 
     res.status(status).send({ 'status': error.status, 'message': error.message }).end();
+
+    return next(error)
   }
 }
 
@@ -74,6 +82,8 @@ export const listReservationsByUser = async (req: Request, res: Response, next: 
     logger.error(`Error in ReservationController.listReservationsByUser: ${error.message}`);
 
     res.status(status).send({ 'status': error.status, 'message': error.message }).end();
+    
+    return next(error)
   }
 }
 
@@ -89,5 +99,7 @@ export const listReservationsByLodging = async (req: Request, res: Response, nex
     logger.error(`Error in ReservationController.listReservationsByLodging: ${error.message}`);
 
     res.status(status).send({ 'status': error.status, 'message': error.message }).end();
+    
+    return next(error)
   }
 }
