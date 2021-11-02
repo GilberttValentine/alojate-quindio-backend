@@ -6,8 +6,8 @@ export async function seed(knex: Knex): Promise<void> {
 
     // Inserts seed entries
     await knex("languages").insert([
-        { language_name: "spanish" },
-        { language_name: "english" },
-        { language_name: "french" }
+        { id: 1, language_name: "spanish" },
+        { id: 2, language_name: "english" },
+        { id: 3, language_name: "french" }
     ]);
 }

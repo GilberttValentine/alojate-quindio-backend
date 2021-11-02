@@ -6,8 +6,9 @@ export async function seed(knex: Knex): Promise<void> {
 
     // Inserts seed entries
     await knex("study_levels").insert([
-        { name: "high school" },
-        { name: "bachelor degree" },
-        { name: "superior degree" }
+        {id:1, name: "high school" },
+        {id:2, name: "bachelor degree" },
+        {id:3, name: "superior degree" },
+        {id:4, name: "none" }
     ]);
 }

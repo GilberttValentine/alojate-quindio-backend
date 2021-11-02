@@ -1,4 +1,4 @@
-import { Model } from 'objection';
+import { Model, ModelObject } from 'objection';
 import StudyLevel from './studyLevel';
 import CivilStatus from './civilStatus';
 import Role from './role';
@@ -15,9 +15,9 @@ export default class User extends Model {
     url_picture!: string;        
     actual_state!: boolean;        
     stratum!: number;
-    civil_status!: number;
-    study_level!: number;
-    role!: number;
+    civil_status_id!: number;
+    study_level_id!: number;
+    role_id!: number;
 
     static get tableName() {
         return 'users';
@@ -52,3 +52,4 @@ export default class User extends Model {
         }
     }
 }
+export type UserShape = ModelObject<User>;

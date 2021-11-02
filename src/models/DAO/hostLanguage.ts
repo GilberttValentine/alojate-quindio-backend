@@ -1,8 +1,11 @@
-import { Model } from 'objection';
+import { Model, ModelObject } from 'objection';
 import Language from './language';
 import User from './user';
-
 export default class HostLanguage extends Model {
+
+    user_id!: number;
+    language_id!: number;
+
     static get tableName() {
         return 'hosts_languages';
     }
@@ -29,3 +32,4 @@ export default class HostLanguage extends Model {
         }
     }
 }
+export type HostLanguageShape = ModelObject<HostLanguage>;

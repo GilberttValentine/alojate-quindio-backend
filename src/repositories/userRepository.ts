@@ -1,5 +1,15 @@
-import User from "../models/DAO/user";
+import User, { UserShape } from "../models/DAO/user";
 
-export const findById = (id: number) => {
-  return User.query().findById(id);
-}
+export const findAllUsers = async (page: number): Promise<object> => await User.query().page(page, 10)
+
+export const findById = async (id: number): Promise<UserShape> => await User.query().findById(id);
+
+export const findByMail = async (mail: string): Promise<UserShape> => await User.query().where('email', mail).first();
+
+export const createUser = async (user: UserShape) => await User.query().insert(user)
+
+export const createHost = async (id: number, role: number) => await User.query().findById(id).patch({ role_id: role })
+
+export const createGuest = async (id: number, user: UserShape) => await User.query().findById(id).patch(user)
+
+export const updateUser = async (id: number, user: UserShape) => await User.query().findById(id).patch(user)
