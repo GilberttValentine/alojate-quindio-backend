@@ -15,7 +15,7 @@ export const createReservation = async (userId: number, lodgingId: number, reser
   
   if(!user.actual_state) throw new BusinessError("User is deactivate");
 
-  if (user.role == GUEST_ROLE_ID || user.role == USER_ROLE_ID) throw new UnauthorizedError("User doesn't have those permissions");
+  if (user.role == HOST_ROLE_ID || user.role == USER_ROLE_ID) throw new UnauthorizedError("User doesn't have those permissions");
 
   const lodging = await LodgingRepository.findById(lodgingId);
 
@@ -74,11 +74,13 @@ export const cancelReservation = async (userId: number, reservationId: number) =
 
   if (user.role == USER_ROLE_ID ) throw new UnauthorizedError("User doesn't have those permissions");
 
-  if ((user.role == GUEST_ROLE_ID || user.role == HOSTGUEST_ROLE_ID) && reservation.user_id != userId) throw new UnauthorizedError("User doesn't have those permissions");
+  if (user.role == GUEST_ROLE_ID && reservation.user_id != userId) throw new UnauthorizedError("User doesn't have those permissions");
 
   const lodging = await LodgingRepository.findById(reservation.lodging_id)
 
-  if ((user.role == HOST_ROLE_ID || user.role == HOSTGUEST_ROLE_ID) && lodging.user_id != userId) throw new UnauthorizedError("User doesn't have those permissions");
+  if (user.role == HOST_ROLE_ID && lodging.user_id != userId) throw new UnauthorizedError("User doesn't have those permissions");
+
+  if (user.role == HOSTGUEST_ROLE_ID && (lodging.user_id != userId && reservation.user_id != userId)) throw new UnauthorizedError("User doesn't have those permissions");
 
   await ReservationRepository.changeReservationState(reservationId, CANCELLED);
 }
@@ -96,11 +98,13 @@ export const findReservation = async (userId: number, reservationId: number): Pr
   
   if (user.role == USER_ROLE_ID ) throw new UnauthorizedError("User doesn't have those permissions");
 
-  if ((user.role == GUEST_ROLE_ID || user.role == HOSTGUEST_ROLE_ID) && reservation.user_id != userId) throw new UnauthorizedError("User doesn't have those permissions");
+  if (user.role == GUEST_ROLE_ID && reservation.user_id != userId) throw new UnauthorizedError("User doesn't have those permissions");
 
   const lodging = await LodgingRepository.findById(reservation.lodging_id)
 
-  if ((user.role == HOSTGUEST_ROLE_ID || user.role == HOSTGUEST_ROLE_ID) && lodging.user_id != userId) throw new UnauthorizedError("User doesn't have those permissions");
+  if (user.role == HOST_ROLE_ID && lodging.user_id != userId) throw new UnauthorizedError("User doesn't have those permissions");
+
+  if (user.role == HOSTGUEST_ROLE_ID && (lodging.user_id != userId && reservation.user_id != userId)) throw new UnauthorizedError("User doesn't have those permissions");
 
   return reservation;
 }
@@ -136,7 +140,7 @@ export const listReservationsByLodging = async (userId: number, lodgingId: numbe
   
   if(!lodging.actual_state) throw new BusinessError("Lodging is deactivate");
 
-  if (user.role == GUEST_ROLE_ID || user.role == USER_ROLE_ID) throw new UnauthorizedError("User doesn't have those permissions");
+  if (user.role == HOST_ROLE_ID || user.role == USER_ROLE_ID) throw new UnauthorizedError("User doesn't have those permissions");
 
   if (user.role != ADMIN_ROLE_ID && lodging.user_id != userId) throw new UnauthorizedError("User doesn't have those permissions");
   
