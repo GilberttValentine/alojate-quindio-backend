@@ -15,7 +15,7 @@ export const createComment = async (userId: number, lodgingId: number, comment: 
   
   if(!user.actual_state) throw new BusinessError("User is deactivate");
 
-  if (user.role == USER_ROLE_ID || user.role == HOST_ROLE_ID) throw new UnauthorizedError("User doesn't have those permissions");
+  if (user.role_id == USER_ROLE_ID || user.role_id == HOST_ROLE_ID) throw new UnauthorizedError("User doesn't have those permissions");
 
   const lodging = await LodgingRepository.findById(lodgingId);
 
@@ -50,7 +50,7 @@ export const editComment = async (userId: number, lodgingId: number, commentId: 
   
   if(!user.actual_state) throw new BusinessError("User is deactivate");
 
-  if (user.role == USER_ROLE_ID || user.role == HOST_ROLE_ID) throw new UnauthorizedError("User doesn't have those permissions");
+  if (user.role_id == USER_ROLE_ID || user.role_id == HOST_ROLE_ID) throw new UnauthorizedError("User doesn't have those permissions");
 
   const lodging = await LodgingRepository.findById(lodgingId);
 
@@ -74,7 +74,7 @@ export const deleteComment = async (userId: number, lodgingId: number, commentId
   
   if(!user.actual_state) throw new BusinessError("User is deactivate");
 
-  if (user.role == USER_ROLE_ID || user.role == HOST_ROLE_ID) throw new UnauthorizedError("User doesn't have those permissions");
+  if (user.role_id == USER_ROLE_ID || user.role_id == HOST_ROLE_ID) throw new UnauthorizedError("User doesn't have those permissions");
 
   const lodging = await LodgingRepository.findById(lodgingId);
 
