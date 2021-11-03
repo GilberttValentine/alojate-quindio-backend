@@ -7,3 +7,11 @@ export const create = (lodging: Lodging) => {
 export const getAllLodgings = () => {
   return Lodging.query();
 }
+
+export const findById = async(id: number): Promise<Lodging> => {
+  return await Lodging.query().findById(id);
+}
+
+export const recalculateScore = async(idLodging: number, score: number) => {
+  await Lodging.query().patch({ qualification: score }).findById(idLodging)
+}

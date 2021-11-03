@@ -1,8 +1,17 @@
-import { Model } from 'objection';
+import { Model, ModelObject } from 'objection';
 import Lodging from './lodging';
 import User from './user';
 
 export default class Comment extends Model {
+    id!: number;
+    user_id!: number;
+    lodging_id!: number;
+    quality!: number;
+    veracity!: number;
+    cleaning!: number;
+    ubication!: number;
+    description!: string;
+
     static get tableName() {
         return 'comments';
     }
@@ -29,3 +38,4 @@ export default class Comment extends Model {
         }
     }
 }
+export type CommentShape = ModelObject<Comment>;

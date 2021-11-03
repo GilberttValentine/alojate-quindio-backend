@@ -6,6 +6,8 @@ import * as RoleController from './roleController';
 import * as StudyLevelController from './studyLevelController';
 import * as LodgingController from './lodgingController';
 import * as UserController from './userController'
+import * as ReservationController from './reservationController';
+import * as CommentController from './commentController';
 
 export const router = express.Router();
 
@@ -22,6 +24,18 @@ router.get('/users', UserController.findAllUsers)
 router.patch('/users/:userId/activate', UserController.activateUser)
 router.patch('/users/:userId/deactivate', UserController.deactivateUser)
 router.get('/users/:userId', UserController.findUserById)
+
+router.post('/users/:userId/lodgings/:lodgingId/reservations', ReservationController.createReservation);
+router.get('/lodgings/:lodgingId/check-valid-dates', ReservationController.validateLodgingDisponibility);
+router.patch('/users/:userId/reservations/:reservationId/cancel', ReservationController.cancelReservation);
+router.get('/users/:userId/reservations/:reservationId', ReservationController.findReservation);
+router.get('/users/:userId/reservations', ReservationController.listReservationsByUser);
+router.get('/users/:userId/lodgings/:lodgingId/reservations', ReservationController.listReservationsByLodging);
+
+router.post('/users/:userId/lodgings/:lodgingId/comments', CommentController.createComment);
+router.patch('/users/:userId/lodgings/:lodgingId/comments/:commentId', CommentController.editComment);
+router.delete('/users/:userId/lodgings/:lodgingId/comments/:commentId', CommentController.deleteComment);
+router.get('/lodgings/:lodgingId/comments', CommentController.listCommentsByLodging);
 
 router.get('/civil-status', CivilStatusController.getAllCivilStatus);
 router.get('/roles', RoleController.getAllRoles);
