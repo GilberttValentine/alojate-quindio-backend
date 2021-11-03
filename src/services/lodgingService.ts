@@ -1,8 +1,6 @@
 import { BusinessError, NotFoundError, UnauthorizedError } from "../utils/ErrorHandlerMiddleware";
 
-import Lodging from "../models/DAO/lodging";
-import Service from "../models/DAO/service";
-import ServiceSchema from "../models/schema/service";
+import { LodgingShape } from "../models/DAO/lodging";
 import LodgingFilters from "../models/schema/lodgingFilters";
 
 import * as LodgingRepository from "../repositories/lodgingRepository";
@@ -11,9 +9,9 @@ import * as MunicipalityRepository from '../repositories/municipalityRepository'
 import * as ServiceRepository from '../repositories/serviceRepository';
 import * as ServiceLodgingRepository from '../repositories/serviceLodgingRepository';
 import * as TypeLodgingRepository from '../repositories/typeLodgingRepository';
-import ServiceLodging from "../models/DAO/serviceLodging";
+import { ServiceLodgingShape } from "../models/DAO/serviceLodging";
 
-export const createLodging = async (userId: number, lodging: Lodging, services: Array<ServiceSchema>) => {
+export const createLodging = async (userId: number, lodging: LodgingShape, services: Array<ServiceLodgingShape>) => {
   const user = await UserRepository.findById(userId);
 
   if (!user) throw new NotFoundError("User doesn't exist");
@@ -28,7 +26,7 @@ export const createLodging = async (userId: number, lodging: Lodging, services: 
 
   if (!type) throw new NotFoundError("The type lodging doesn't exist");
 
-  const serviceIds = services.map(it => it.id);
+  const serviceIds = services.map(it => it.service_id);
 
   const servicesLodging = await ServiceRepository.findServicesByIds(serviceIds);
 
@@ -41,10 +39,10 @@ export const createLodging = async (userId: number, lodging: Lodging, services: 
   const lodgingId = (await LodgingRepository.create(lodging)).id;
 
   servicesLodging.forEach(async (service) => {
-    const serviceInfomation = services.find(it => it.id == service.id);
+    const serviceInfomation = services.find(it => it.service_id == service.id);
 
     const serviceLodging = {
-      service_id: Number(serviceInfomation?.id),
+      service_id: Number(serviceInfomation?.service_id),
       lodging_id: lodgingId,
       description: String(serviceInfomation?.description)
     };
@@ -63,7 +61,7 @@ export const getLodging = async (lodgingId: number) => {
 
 export const getAllLodgings = async (page: number, filters: LodgingFilters | null) => {
   page = page || page >= 0 ? page : 0;
-
+  /*
   const pageLodgings = await LodgingRepository.getAllLodgings(page, filters);
 
   const lodgingsIds = pageLodgings.results.map(it => it.id);
@@ -84,7 +82,8 @@ export const getAllLodgings = async (page: number, filters: LodgingFilters | nul
     total: pageLodgings.total
   };
 
-  return lodgings;
+  return lodgings;*/
+  return await LodgingRepository.getAllLodgings(page, filters);
 };
 
 export const deactivateLodging = async (userId: number, lodgingId: number) => {

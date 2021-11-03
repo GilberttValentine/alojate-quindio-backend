@@ -1,7 +1,7 @@
-import Service from '../models/DAO/service';
+import { ServiceShape } from '../models/DAO/service';
 import * as ServiceRepository from '../repositories/serviceRepository';
 
-export const createService = async (service: Service) => {
+export const createService = async (service: ServiceShape) => {
   await ServiceRepository.create(service);
 }
 

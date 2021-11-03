@@ -1,4 +1,4 @@
-import { Model } from 'objection';
+import { Model, ModelObject } from 'objection';
 import User from './user';
 import Municipality from './municipality';
 import TypeLodging from './typeLodging';
@@ -63,3 +63,4 @@ export default class Lodging extends Model {
         }
     }
 }
+export type LodgingShape = ModelObject<Lodging>;

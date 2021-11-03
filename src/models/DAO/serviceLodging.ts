@@ -8,7 +8,6 @@ export default class ServiceLodging extends Model {
     lodging_id!: number;
     description!: string;
 
-
     static get tableName() {
         return 'services_lodgings';
     }
