@@ -2,25 +2,25 @@ import { Knex } from "knex";
 
 export async function seed(knex: Knex): Promise<void> {
 
-  // Deletes ALL existing entries}
+  // Deletes ALL existing entries
   await knex("comments").del();
 
   await knex("lodgings").del();
 
-  await knex("users").del();
+  //await knex("users").del();
 
-  await knex("civil_status").del();
+  //await knex("civil_status").del();
 
-  await knex("study_levels").del();
+  //await knex("study_levels").del();
 
-  await knex("roles").del();
+  //await knex("roles").del();
 
-  await knex("languages").del();
+  //await knex("languages").del();
 
-  await knex("reservation_states")
+  //await knex("reservation_states")
 
   // Inserts seed entries
-  await knex("reservation_states").insert([
+  /**await knex("reservation_states").insert([
     { id: 1, state_name: "pending" },
     { id: 2, state_name: "in course" },
     { id: 3, state_name: "finished" },
@@ -42,14 +42,14 @@ export async function seed(knex: Knex): Promise<void> {
   ]);
 
   await knex("study_levels").insert([
-    { name: "high school" },
-    { name: "bachelor degree" },
-    { name: "superior degree" }
+    { id: 1, name: "high school" },
+    { id: 2, name: "bachelor degree" },
+    { id: 3, name: "superior degree" }
   ]);
 
   await knex("civil_status").insert([
-    { name: "single" },
-    { name: "married" }
+    { id: 1, name: "single" },
+    { id: 2, name: "married" }
   ]);
 
   await knex("users").insert([
@@ -64,9 +64,9 @@ export async function seed(knex: Knex): Promise<void> {
       url_picture: "url",
       actual_state: true,
       stratum: 1,
-      civil_status: 1,
-      study_level: 1,
-      role: 1
+      civil_status_id: 1,
+      study_level_id: 1,
+      role_id: 1
     },
   ]);
 
@@ -97,5 +97,5 @@ export async function seed(knex: Knex): Promise<void> {
       ubication: 4,
       description: "Muy buen lugar"
     }
-  ]);
+  ]);*/
 }

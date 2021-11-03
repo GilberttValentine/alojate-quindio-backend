@@ -1,14 +1,13 @@
-import Comment from "../models/DAO/comment";
+import Comment, { CommentShape } from "../models/DAO/comment";
 import * as LodgingRepository from "../repositories/lodgingRepository";
 import * as UserRepository from '../repositories/userRepository';
 import * as CommentRepository from '../repositories/commentRepository'
-import * as ReservationRepository from '../repositories/reservationRepository'
 import { BusinessError, NotFoundError, UnauthorizedError } from "../utils/ErrorHandlerMiddleware";
 import { Page } from "objection";
-import { ADMIN_ROLE_ID, GUEST_ROLE_ID, HOSTGUEST_ROLE_ID, HOST_ROLE_ID, USER_ROLE_ID } from '../utils/constants/reservationConstants/rolesConstants';
+import { HOST_ROLE_ID, USER_ROLE_ID } from '../utils/constants/reservationConstants/rolesConstants';
 import CommentsFilters from "../models/requests/listCommentsLodgingFilters";
 
-export const createComment = async (userId: number, lodgingId: number, comment: Comment) => {
+export const createComment = async (userId: number, lodgingId: number, comment: CommentShape) => {
   const user = await UserRepository.findById(userId);
 
   if(!user) throw new NotFoundError("User doesn't exist");

@@ -1,4 +1,4 @@
-import { Model } from 'objection';
+import { Model, ModelObject } from 'objection';
 import Lodging from './lodging';
 import User from './user';
 
@@ -38,3 +38,4 @@ export default class Comment extends Model {
         }
     }
 }
+export type CommentShape = ModelObject<Comment>;

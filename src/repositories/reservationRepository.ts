@@ -1,13 +1,12 @@
 import { Page } from "objection";
-import Reservation from "../models/DAO/reservation";
+import Reservation, { ReservationShape } from "../models/DAO/reservation";
 import { CANCELLED } from "../utils/constants/reservationConstants/reservationStatesConstants";
-import { logger } from "../utils/logger";
 
-export const create = async (reservation: Reservation) => {
+export const create = async (reservation: ReservationShape) => {
   await Reservation.query().insert(reservation);
 }
 
-export const validateLodgingDisponibility = async(id_lodging: number, startDate: Date, endDate: Date): Promise<Reservation[]> => {
+export const validateLodgingDisponibility = async(id_lodging: number, startDate: Date, endDate: Date): Promise<ReservationShape[]> => {
   return await Reservation.query().where('lodging_id', id_lodging)
   .whereNot("actual_state", CANCELLED)
   .where(builder => {
@@ -21,7 +20,7 @@ export const changeReservationState = async(id: number, state: number) => {
   await Reservation.query().patch({ actual_state: state }).findById(id)
 }
 
-export const findById = async(id: number): Promise<Reservation> => {
+export const findById = async(id: number): Promise<ReservationShape> => {
   return await Reservation.query().findById(id);
 }
 
@@ -45,10 +44,10 @@ export const listReservationsByLodging = async(lodging_id: number, limit_date: D
   return await query.page(page?page:0, 10);
 }
 
-export const todayFinalizeReservations = async(today: Date): Promise<Reservation[]> => {
+export const todayFinalizeReservations = async(today: Date): Promise<ReservationShape[]> => {
   return await Reservation.query().where('end_date', today);
 }
 
-export const todayStartReservations = async(today: Date): Promise<Reservation[]> => {
+export const todayStartReservations = async(today: Date): Promise<ReservationShape[]> => {
   return await Reservation.query().where('start_date', today);
 }

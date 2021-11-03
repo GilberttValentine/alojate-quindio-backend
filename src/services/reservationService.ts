@@ -2,13 +2,12 @@ import * as LodgingRepository from "../repositories/lodgingRepository";
 import * as UserRepository from '../repositories/userRepository';
 import * as ReservationRepository from '../repositories/reservationRepository'
 import { BusinessError, NotFoundError, UnauthorizedError } from "../utils/ErrorHandlerMiddleware";
-import Reservation from "../models/DAO/reservation";
+import Reservation, { ReservationShape } from "../models/DAO/reservation";
 import { Page } from "objection";
 import { ADMIN_ROLE_ID, GUEST_ROLE_ID, HOSTGUEST_ROLE_ID, HOST_ROLE_ID, USER_ROLE_ID } from '../utils/constants/reservationConstants/rolesConstants';
 import { PENDING, IN_COURSE, FINISHED, CANCELLED } from '../utils/constants/reservationConstants/reservationStatesConstants';
-import { logger } from "../utils/logger";
 
-export const createReservation = async (userId: number, lodgingId: number, reservation: Reservation) => {
+export const createReservation = async (userId: number, lodgingId: number, reservation: ReservationShape) => {
   const user = await UserRepository.findById(userId);
 
   if(!user) throw new NotFoundError("User doesn't exist");
@@ -85,7 +84,7 @@ export const cancelReservation = async (userId: number, reservationId: number) =
   await ReservationRepository.changeReservationState(reservationId, CANCELLED);
 }
 
-export const findReservation = async (userId: number, reservationId: number): Promise<Reservation> => {
+export const findReservation = async (userId: number, reservationId: number): Promise<ReservationShape> => {
   const user = await UserRepository.findById(userId);
 
   if(!user) throw new NotFoundError("User doesn't exist");
