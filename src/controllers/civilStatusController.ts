@@ -12,5 +12,7 @@ export const getAllCivilStatus = async (req: Request, res: Response, next: NextF
 
     logger.error(`Error in CivilStatusController.getAllCivilStatus: ${error.message}`);
     res.status(status).send({ 'status': error.status, 'message': error.message }).end();
+    
+    return next(error);
   }
 }

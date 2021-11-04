@@ -13,6 +13,8 @@ export const createLodging = async (req: Request, res: Response, next: NextFunct
 
     logger.error(`Error in LodgingController.createLodging: ${error.message}`);
     res.status(status).send({ 'status': error.status, 'message': error.message }).end();
+
+    return next(error);
   }
 }
 
@@ -29,6 +31,8 @@ export const getAllLodgings = async (req: Request, res: Response, next: NextFunc
     logger.error(`Error in LodgingController.getAllLodgings: ${error.message}`);
 
     res.status(status).send({ 'status': error.status, 'message': error.message }).end();
+
+    return next(error);
   }
 }
 
@@ -44,6 +48,8 @@ export const getLodging = async (req: Request, res: Response, next: NextFunction
     logger.error(`Error in LodgingController.getLodging: ${error.message}`);
 
     res.status(status).send({ 'status': error.status, 'message': error.message }).end();
+
+    return next(error);
   }
 }
 
@@ -60,6 +66,8 @@ export const deactivateLodging = async (req: Request, res: Response, next: NextF
     logger.error(`Error in LodgingController.deactivateLodging: ${error.message}`);
 
     res.status(status).send({ 'status': error.status, 'message': error.message }).end();
+
+    return next(error);
   }
 }
 
@@ -75,5 +83,7 @@ export const activateLodging = async (req: Request, res: Response, next: NextFun
     logger.error(`Error in LodgingController.activateLodging: ${error.message}`);
 
     res.status(status).send({ 'status': error.status, 'message': error.message }).end();
+    
+    return next(error);
   }
 }

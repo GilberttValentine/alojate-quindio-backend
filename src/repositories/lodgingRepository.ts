@@ -22,15 +22,13 @@ export const findById = async (id: number): Promise<LodgingShape> => {
   return await Lodging.query().findById(id);
 }
 
-export const getAllLodgings = async (page: number, filters: LodgingFilters | null) => {
+export const getAllLodgings = async (page: number, filters: LodgingFilters | null): Promise<object> => {
   const lodgins = Lodging.query()
     .select(
       'lodgings.id as id',
       'lodgings.name as name',
-      'm.id as municipality_id',
-      'm.name as municipality_name',
-      'tl.id as type_id',
-      'tl.name as type_name',
+      raw(`jsonb_build_object('id', m.id, 'name', m."name") as municipality`),
+      raw(`jsonb_build_object('id', tl.id, 'name', tl."name") as type`),
       'lodgings.persons_amount',
       'lodgings.accesibility',
       'lodgings.direction',
@@ -38,34 +36,36 @@ export const getAllLodgings = async (page: number, filters: LodgingFilters | nul
       'lodgings.bed_quantity',
       'lodgings.bathroom_quantity',
       'lodgings.night_value',
-      raw('array_agg(row_to_json(services.*)) as services'),
+      raw(`array_agg(jsonb_build_object('id', s.id, 'name', s.name)) as services`),
       'lodgings.actual_state',
       'lodgings.qualification'
     )
     .innerJoin('services_lodgings as sl', 'lodgings.id', 'sl.lodging_id')
-    .innerJoin('services', 'sl.service_id', 'services.id')
+    .innerJoin('services as s', 'sl.service_id', 's.id')
     .innerJoin('municipalities as m', 'm.id', 'lodgings.municipality_id')
     .innerJoin('types_lodging as tl', 'tl.id', 'lodgings.type_id')
-    .groupBy('lodgings.id')
+    .groupByRaw(`lodgings.id, m.id, tl.id`)
     .where((builder) => {
       if (filters) {
-        if (filters.municipality_id) builder.andWhere('municipality_id', filters.municipality_id);
+        if (filters.municipality_id) builder.orWhere('municipality_id', filters.municipality_id);
 
-        if (filters.persons_amount) builder.andWhere('persons_amount', filters.persons_amount);
+        if (filters.persons_amount) builder.orWhere('persons_amount', filters.persons_amount);
 
-        if (filters.minimum_price && filters.maximum_price) builder.andWhereBetween('night_value', [filters.minimum_price, filters.maximum_price]);
+        if (filters.minimum_price && filters.maximum_price) builder.orWhereBetween('night_value', [filters.minimum_price, filters.maximum_price]);
 
-        if (filters.type_lodging) builder.andWhere('type_id', filters.type_lodging);
+        if (filters.type_lodging) builder.orWhere('type_id', filters.type_lodging);
 
-        if (filters.room_quantity) builder.andWhere('room_quantity', filters.room_quantity);
+        if (filters.room_quantity) builder.orWhere('room_quantity', filters.room_quantity);
 
-        if (filters.bed_quantity) builder.andWhere('bed_quantity', filters.bed_quantity);
+        if (filters.bed_quantity) builder.orWhere('bed_quantity', filters.bed_quantity);
 
-        if (filters.bathroom_quantity) builder.andWhere('bathroom_quantity', filters.bathroom_quantity);
+        if (filters.bathroom_quantity) builder.orWhere('bathroom_quantity', filters.bathroom_quantity);
 
-        //if (filters.qualification) builder.andWhere('qualification', filters.qualification);
+        if (filters.qualification) builder.orWhereBetween('qualification', [filters.qualification, filters.qualification >= 5 ? 0 : 5]);
       }
-    }).page(page ? page : 0, 10).orderBy('id', 'asc');
+    })
+    .page(page ? page : 0, 10)
+    .orderBy('id', 'asc');
 
   return await lodgins;
 }

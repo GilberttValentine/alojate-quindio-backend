@@ -26,5 +26,7 @@ export const findAllServices = async (req: Request, res: Response, next: NextFun
 
     logger.error(`Error in ServiceController.findAllServices: ${error.message}`);
     res.status(status).send({ 'status': error.status, 'message': error.message }).end();
+    
+    return next(error);
   }
 }

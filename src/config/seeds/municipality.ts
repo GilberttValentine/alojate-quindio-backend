@@ -6,17 +6,17 @@ export async function seed(knex: Knex): Promise<void> {
 
     // Inserts seed entries
     await knex("municipalities").insert([
-        { name: "Armenia", url_picture: "" },
-        { name: "Circasia", url_picture: "" },
-        { name: "Calarcá", url_picture: "" },
-        { name: "Filandia", url_picture: "" },
-        { name: "Salento", url_picture: "" },
-        { name: "Génova", url_picture: "" },
-        { name: "La Tebaida", url_picture: "" },
-        { name: "Pijao", url_picture: "" },
-        { name: "Montenegro", url_picture: "" },
-        { name: "Buenavista", url_picture: "" },
-        { name: "Quimbaya", url_picture: "" },
-        { name: "Córdoba", url_picture: "" }
+        { id: 1, name: "Armenia", url_picture: "" },
+        { id: 2, name: "Circasia", url_picture: "" },
+        { id: 3, name: "Calarcá", url_picture: "" },
+        { id: 4, name: "Filandia", url_picture: "" },
+        { id: 5, name: "Salento", url_picture: "" },
+        { id: 6, name: "Génova", url_picture: "" },
+        { id: 7, name: "La Tebaida", url_picture: "" },
+        { id: 8, name: "Pijao", url_picture: "" },
+        { id: 9, name: "Montenegro", url_picture: "" },
+        { id: 10, name: "Buenavista", url_picture: "" },
+        { id: 11, name: "Quimbaya", url_picture: "" },
+        { id: 12, name: "Córdoba", url_picture: "" }
     ]);
 }

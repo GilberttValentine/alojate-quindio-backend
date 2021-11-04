@@ -1,4 +1,4 @@
-import { Model } from 'objection';
+import { Model, ModelObject } from 'objection';
 
 export default class Municipality extends Model {
   id!: number;
@@ -9,3 +9,5 @@ export default class Municipality extends Model {
     return 'municipalities';
   }
 }
+
+export type MunicipalityShape = ModelObject<Municipality>;

@@ -29,7 +29,7 @@ export default class ServiceLodging extends Model {
                     from: 'services_lodgings.lodging_id',
                     to: 'lodgings.id'
                 }
-            },
+            }
         }
     }
 }

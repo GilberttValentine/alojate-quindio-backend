@@ -2,7 +2,6 @@ import { Model, ModelObject } from 'objection';
 import User from './user';
 import Municipality from './municipality';
 import TypeLodging from './typeLodging';
-import Service from './service';
 
 export default class Lodging extends Model {
     id!: number;
@@ -26,8 +25,11 @@ export default class Lodging extends Model {
 =======
 =======
     qualification!: number;
+<<<<<<< HEAD
     services!: Array<string>;
 >>>>>>> 2c3dc96 (Uploading changes)
+=======
+>>>>>>> 830937b (Uploading changes)
 
 >>>>>>> 209204d (uploading changes)
     static get tableName() {

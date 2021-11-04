@@ -51,7 +51,7 @@ export const createLodging = async (userId: number, lodging: LodgingShape, servi
   });
 };
 
-export const getLodging = async (lodgingId: number) => {
+export const getLodging = async (lodgingId: number): Promise<LodgingShape> => {
   const lodging = await LodgingRepository.findById(lodgingId);
 
   if (!lodging) throw new NotFoundError("Lodging doesn't exist");
@@ -59,30 +59,9 @@ export const getLodging = async (lodgingId: number) => {
   return lodging;
 }
 
-export const getAllLodgings = async (page: number, filters: LodgingFilters | null) => {
+export const getAllLodgings = async (page: number, filters: LodgingFilters | null): Promise<object> => {
   page = page || page >= 0 ? page : 0;
-  /*
-  const pageLodgings = await LodgingRepository.getAllLodgings(page, filters);
 
-  const lodgingsIds = pageLodgings.results.map(it => it.id);
-
-  const listServices = await ServiceLodgingRepository.findServicesLodgingsByIds(lodgingsIds);
-
-  const results = await Promise.all(pageLodgings.results.map(async (it) => {
-    const serviceIds = listServices.filter(service => it.id == service.lodging_id).map(it => it.service_id);
-    const services = (await ServiceRepository.findServicesByIds(serviceIds)).map(service => service.name);
-    
-    it.services = services;
-    
-    return it;
-  }));
-
-  const lodgings = {
-    results,
-    total: pageLodgings.total
-  };
-
-  return lodgings;*/
   return await LodgingRepository.getAllLodgings(page, filters);
 };
 

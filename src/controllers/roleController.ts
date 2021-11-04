@@ -12,5 +12,7 @@ export const getAllRoles = async (req: Request, res: Response, next: NextFunctio
 
         logger.error(`Error in RoleController.getAllRoles: ${error.message}`);
         res.status(status).send({ 'status': error.status, 'message': error.message }).end();
+
+        return next(error);
     }
 }
