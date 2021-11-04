@@ -18,20 +18,9 @@ export default class Lodging extends Model {
     description!: string;
     actual_state!: boolean;
     night_value!: number;
-<<<<<<< HEAD
-<<<<<<< HEAD
     qualification!: number;
-    
-=======
-=======
-    qualification!: number;
-<<<<<<< HEAD
     services!: Array<string>;
->>>>>>> 2c3dc96 (Uploading changes)
-=======
->>>>>>> 830937b (Uploading changes)
 
->>>>>>> 209204d (uploading changes)
     static get tableName() {
         return 'lodgings';
     }

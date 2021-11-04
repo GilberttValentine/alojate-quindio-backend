@@ -34,9 +34,9 @@ export async function seed(knex: Knex): Promise<void> {
       url_picture: "url",
       actual_state: true,
       stratum: 8,
-      civil_status: 1,
-      study_level: 1,
-      role: 2
+      civil_status_id: 1,
+      study_level_id: 1,
+      role_id: 2
     },
   ]);
 }

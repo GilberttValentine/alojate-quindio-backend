@@ -52,9 +52,4 @@ export default class User extends Model {
         }
     }
 }
-<<<<<<< HEAD
 export type UserShape = ModelObject<User>;
-=======
-
-export type UserSchape = ModelObject<User>;
->>>>>>> d820eb8 (uploading changes)
