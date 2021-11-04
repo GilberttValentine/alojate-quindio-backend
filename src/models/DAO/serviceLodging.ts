@@ -1,8 +1,13 @@
-import { Model } from 'objection';
+import { Model, ModelObject } from 'objection';
 import Lodging from './lodging';
 import Service from './service';
 
 export default class ServiceLodging extends Model {
+    id!: number;
+    service_id!: number;
+    lodging_id!: number;
+    description!: string;
+
     static get tableName() {
         return 'services_lodgings';
     }
@@ -24,8 +29,9 @@ export default class ServiceLodging extends Model {
                     from: 'services_lodgings.lodging_id',
                     to: 'lodgings.id'
                 }
-            },
-
+            }
         }
     }
 }
+
+export type ServiceLodgingShape = ModelObject<ServiceLodging>;

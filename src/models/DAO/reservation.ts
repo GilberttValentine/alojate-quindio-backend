@@ -32,8 +32,7 @@ export default class Reservation extends Model {
                     from: 'reservations.lodging_id',
                     to: 'lodgings.id'
                 }
-            },
-
+            }
         }
     }
 }

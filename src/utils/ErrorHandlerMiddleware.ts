@@ -1,4 +1,4 @@
-export function ErrorHandler(err:any, req:any, res:any, next:any) {
+export function ErrorHandler(err: any, req: any, res: any, next: any) {
   const logName = 'ErrorHandlerMiddleware.MainHandler';
   const logger = req.log || console;
 

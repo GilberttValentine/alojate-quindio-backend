@@ -8,12 +8,17 @@ import * as LodgingController from './lodgingController';
 import * as UserController from './userController'
 import * as ReservationController from './reservationController';
 import * as CommentController from './commentController';
+import * as MunicipalityController from './municipalityController';
+import * as ServiceController from './serviceController';
 
 export const router = express.Router();
 
 router.get('/lodgings', LodgingController.getAllLodgings);
-
+router.get('/lodgings/:lodgingId', LodgingController.getLodging);
 router.post('/users/:userId/lodgings', LodgingController.createLodging);
+router.patch('/users/:userId/lodgings/:lodgingId/deactivate', LodgingController.deactivateLodging);
+router.patch('/users/:userId/lodgings/:lodgingId/activate', LodgingController.activateLodging);
+
 router.post('/users', UserController.createUser)
 router.patch('/users/:userId/hosts', UserController.createHost)
 router.patch('/users/:userId/guests', UserController.createGuest)
@@ -37,7 +42,11 @@ router.patch('/users/:userId/lodgings/:lodgingId/comments/:commentId', CommentCo
 router.delete('/users/:userId/lodgings/:lodgingId/comments/:commentId', CommentController.deleteComment);
 router.get('/lodgings/:lodgingId/comments', CommentController.listCommentsByLodging);
 
+router.get('/services', ServiceController.findAllServices);
+router.post('/services', ServiceController.createService);
+
 router.get('/civil-status', CivilStatusController.getAllCivilStatus);
 router.get('/roles', RoleController.getAllRoles);
 router.get('/study-levels', StudyLevelController.getAllStudyLevels);
 router.get('/languages', LanguageController.getAllLanguages);
+router.get('/municipalities', MunicipalityController.getAllMunicipalities);

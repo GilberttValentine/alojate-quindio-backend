@@ -34,7 +34,6 @@ export default class Comment extends Model {
                     to: 'lodgings.id'
                 }
             },
-
         }
     }
 }

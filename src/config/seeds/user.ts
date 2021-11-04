@@ -7,6 +7,7 @@ export async function seed(knex: Knex): Promise<void> {
   // Inserts seed entries
   await knex("users").insert([
     {
+      id: 1,
       first_name: "Pablo",
       second_name: "Andrés",
       first_lastname: "Guzmán",
@@ -20,6 +21,22 @@ export async function seed(knex: Knex): Promise<void> {
       civil_status_id: 1,
       study_level_id: 1,
       role_id: 1
+    },
+    {
+      id: 2,
+      first_name: "Filo",
+      second_name: "Chorizo",
+      first_lastname: "Aventuras",
+      second_lastname: "Linux",
+      direction: "Mansión linux",
+      email: "linuxlover@linuxtuber.com",
+      password: "12345",
+      url_picture: "url",
+      actual_state: true,
+      stratum: 8,
+      civil_status_id: 1,
+      study_level_id: 1,
+      role_id: 2
     },
   ]);
 }

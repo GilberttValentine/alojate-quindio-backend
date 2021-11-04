@@ -1,10 +1,10 @@
-
 import * as RoleRepository from '../repositories/roleRepository';
+import { NotFoundError } from '../utils/ErrorHandlerMiddleware';
 
 export const getAllRoles = async (): Promise<object> => {
-    const role = await RoleRepository.getAllRoles();
+    const roles = await RoleRepository.getAllRoles();
 
-    if (Object.values(role).length === 0) throw new Error('Role not founded');
+    if (Object.values(roles).length === 0) throw new NotFoundError('Roles not founded');
 
-    return role;
+    return roles;
 }

@@ -28,7 +28,6 @@ export default class HostLanguage extends Model {
                     to: 'languages.id'
                 }
             },
-
         }
     }
 }
