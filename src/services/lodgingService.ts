@@ -74,7 +74,7 @@ export const deactivateLodging = async (userId: number, lodgingId: number) => {
 
   if (!lodging) throw new NotFoundError("Lodging doesn't exist");
 
-  if (lodging.user_id != user.id && user.role != 1) throw new UnauthorizedError("The hosting does not belong to the user");
+  if (lodging.user_id != user.id && user.role_id != 1) throw new UnauthorizedError("The hosting does not belong to the user");
 
   if (!lodging.actual_state) throw new BusinessError("The lodging already deactivate");
 
@@ -90,7 +90,7 @@ export const activateLodging = async (userId: number, lodgingId: number) => {
 
   if (!lodging) throw new NotFoundError("Lodging doesn't exist");
 
-  if (lodging.user_id != user.id && user.role != 1) throw new UnauthorizedError("The hosting does not belong to the user");
+  if (lodging.user_id != user.id && user.role_id != 1) throw new UnauthorizedError("The hosting does not belong to the user");
 
   if (lodging.actual_state) throw new BusinessError("The lodging already activate");
 
