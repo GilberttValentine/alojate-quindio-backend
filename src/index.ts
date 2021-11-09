@@ -8,6 +8,15 @@ import { CronJob } from "cron"
 import * as ReservationService from "./services/reservationService"
 
 database();
+
+if (!(process.env.NODE_ENV === 'test')) {
+    new CronJob('00 59 23 * * *', async () => {
+        await ReservationService.changeTodayReservationsStates();
+    },
+        null,
+        true)
+}
+
 export const app = express();
 const port = 3000;
 
@@ -21,9 +30,3 @@ app.use(ErrorHandler);
 export const server = app.listen(port, () => {
     console.log(`Server on port ${port}`);
 })
-
-new CronJob('00 59 23 * * *', async () => {
-    await ReservationService.changeTodayReservationsStates();
-  },
-  null,
-  true)

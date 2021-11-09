@@ -1,8 +1,9 @@
 import knex from 'knex';
-import config from './knexfile';
+import devConfig from './knexfile';
+import testConfig from './knextfiletest';
 import { Model } from 'objection';
 
 export function database() {
-    const db = knex(config.development);
+    const db = knex(process.env.NODE_ENV === 'test' ? testConfig.test : devConfig.development);
     Model.knex(db);
 }

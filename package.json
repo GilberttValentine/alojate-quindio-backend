@@ -6,10 +6,14 @@
   "scripts": {
     "build": "tsc",
     "dev": "cross-env NODE_ENV=development ts-node-dev src/index.ts",
-    "migrate": "npx knex migrate:latest --knexfile src/config/knexfile.ts",
-    "migrate:down": "npx knex migrate:down  --knexfile src/config/knexfile.ts",
-    "migrate:rollback:all": "npx knex migrate:rollback --all  --knexfile src/config/knexfile.ts",
-    "seed": "npx knex seed:run --knexfile src/config/knexfile.ts",
+    "migrate": "cross-env NODE_ENV=development npx knex migrate:latest --knexfile src/config/knexfile.ts",
+    "migrate:down": "cross-env NODE_ENV=development npx knex migrate:down  --knexfile src/config/knexfile.ts",
+    "migrate:rollback:all": "cross-env NODE_ENV=development npx knex migrate:rollback --all  --knexfile src/config/knexfile.ts",
+    "seed": "cross-env NODE_ENV=development npx knex seed:run --knexfile src/config/knexfile.ts",
+    "migrate:test": "cross-env NODE_ENV=test npx knex migrate:latest --knexfile src/config/knextfiletest.ts",
+    "migrate:down:test": "cross-env NODE_ENV=test npx knex migrate:down  --knexfile src/config/knextfiletest.ts",
+    "migrate:rollback:all:test": "cross-env NODE_ENV=test npx knex migrate:rollback --all  --knexfile src/config/knextfiletest.ts",
+    "seed:test": "cross-env NODE_ENV=test npx knex seed:run --knexfile src/config/knextfiletest.ts",
     "test": "cross-env NODE_ENV=test jest --verbose  --detectOpenHandles --silent",
     "test:watch": "cross-env NODE_ENV=test npm run test -- --watch"
   },
