@@ -8,4 +8,6 @@ export default class LodgingFilters {
   bed_quantity!: number;
   bathroom_quantity!: number;
   qualification!: number;
+  lodging_name!: string;
+  lodging_state!: boolean;
 }
