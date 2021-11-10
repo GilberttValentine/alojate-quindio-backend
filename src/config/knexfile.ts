@@ -14,7 +14,7 @@ const databaseToUse = NODE_ENV === 'test' ? PG_DB_URI_TEST : PG_DB_URI
 const config: IKnexConfig = databaseToUse ? {
     development: {
         client: 'pg',
-        connection: `postgres://postgres:root@localhost:5432/${databaseToUse}`,
+        connection: `postgres://postgres:postgres@localhost:5432/${databaseToUse}`,
         pool: { min: 1, max: 2 },
         migrations: {
             tableName: "knex_migrations"
@@ -27,7 +27,7 @@ const config: IKnexConfig = databaseToUse ? {
 } : {
     development: {
         client: 'pg',
-        connection: `postgres://postgres:root@localhost:5432/alojatequindio`,
+        connection: `postgres://postgres:postgres@localhost:5432/alojatequindio`,
         pool: { min: 1, max: 2 },
         migrations: {
             tableName: "knex_migrations"
