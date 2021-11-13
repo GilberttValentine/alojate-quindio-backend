@@ -17,16 +17,17 @@ export async function seed(knex: Knex): Promise<void> {
 
   //await knex("languages").del();
 
-  //await knex("reservation_states")
+  await knex("reservation_states")
 
   // Inserts seed entries
-  /**await knex("reservation_states").insert([
+  await knex("reservation_states").insert([
     { id: 1, state_name: "pending" },
     { id: 2, state_name: "in course" },
     { id: 3, state_name: "finished" },
     { id: 4, state_name: "cancelled" }
   ]);
 
+  /**
   await knex("languages").insert([
     { id: 1, language_name: "spanish" },
     { id: 2, language_name: "english" },

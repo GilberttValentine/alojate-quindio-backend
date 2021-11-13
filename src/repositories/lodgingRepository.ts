@@ -27,6 +27,7 @@ export const getAllLodgings = async (page: number, filters: LodgingFilters | nul
     .select(
       'lodgings.id as id',
       'lodgings.name as name',
+      raw(`jsonb_build_object('id', us.id, 'name', us."first_name" || ' ' || us."second_name" || ' ' || us."first_lastname" || ' ' || us."second_lastname" , 'photo', us."url_picture") as user`),
       raw(`jsonb_build_object('id', m.id, 'name', m."name") as municipality`),
       raw(`jsonb_build_object('id', tl.id, 'name', tl."name") as type`),
       'lodgings.persons_amount',
@@ -42,10 +43,11 @@ export const getAllLodgings = async (page: number, filters: LodgingFilters | nul
     )
     .innerJoin('services_lodgings as sl', 'lodgings.id', 'sl.lodging_id')
     .innerJoin('services as s', 'sl.service_id', 's.id')
+    .innerJoin('users as us', 'lodgings.user_id', 'us.id')
     .innerJoin('municipalities as m', 'm.id', 'lodgings.municipality_id')
     .innerJoin('types_lodging as tl', 'tl.id', 'lodgings.type_id')
-    .innerJoin('comments as c', 'c.lodging_id', 'lodgings.id')
-    .groupByRaw(`lodgings.id, m.id, tl.id`)
+    .leftJoin('comments as c', 'c.lodging_id', 'lodgings.id')
+    .groupByRaw(`lodgings.id, m.id, tl.id, us.id`)
     .where((builder) => {
       if (filters) {
         if (filters.municipality_id) builder.where('municipality_id', filters.municipality_id);
@@ -96,7 +98,7 @@ export const getLodgingsByHost = async (page: number, filters: LodgingFilters | 
     .innerJoin('users as us', 'lodgings.user_id', 'us.id')
     .innerJoin('municipalities as m', 'm.id', 'lodgings.municipality_id')
     .innerJoin('types_lodging as tl', 'tl.id', 'lodgings.type_id')
-    .innerJoin('comments as c', 'c.lodging_id', 'lodgings.id')
+    .leftJoin('comments as c', 'c.lodging_id', 'lodgings.id')
     .groupByRaw(`lodgings.id, m.id, tl.id, us.id`)
     .where((builder) => {
       if (filters) {
