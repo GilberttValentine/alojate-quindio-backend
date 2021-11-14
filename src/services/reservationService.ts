@@ -105,7 +105,7 @@ export const findReservation = async (userId: number, reservationId: number): Pr
 
   if (user.role_id == HOSTGUEST_ROLE_ID && (lodging.user_id != userId && reservation.user_id != userId)) throw new UnauthorizedError("User doesn't have those permissions");
 
-  return reservation;
+  return await ReservationRepository.findReservation(reservationId);
 }
 
 export const listReservationsByUser = async (userId:number, days?: number, page?: number): Promise<Page<Reservation>> => {
@@ -139,7 +139,7 @@ export const listReservationsByLodging = async (userId: number, lodgingId: numbe
   
   if(!lodging.actual_state) throw new BusinessError("Lodging is deactivate");
 
-  if (user.role_id == HOST_ROLE_ID || user.role_id == USER_ROLE_ID) throw new UnauthorizedError("User doesn't have those permissions");
+  if (user.role_id == GUEST_ROLE_ID || user.role_id == USER_ROLE_ID) throw new UnauthorizedError("User doesn't have those permissions");
 
   if (user.role_id != ADMIN_ROLE_ID && lodging.user_id != userId) throw new UnauthorizedError("User doesn't have those permissions");
   

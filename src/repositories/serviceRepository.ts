@@ -11,3 +11,11 @@ export const findServicesByIds = async (ids: Array<number>): Promise<Array<Servi
 export const findAll = async (): Promise<Array<ServiceShape>> => {
   return await Service.query();
 }
+
+export const findById = async(serviceId: number): Promise<ServiceShape> => {
+  return await Service.query().findById(serviceId);
+}
+
+export const editService = async(id: number, name: string) => {
+  await Service.query().patch({ name: name }).findById(id)
+}

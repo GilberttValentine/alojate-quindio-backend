@@ -14,8 +14,10 @@ import * as ServiceController from './serviceController';
 export const router = express.Router();
 
 router.get('/lodgings', LodgingController.getAllLodgings);
+router.get('/user/:userId/lodgings', LodgingController.getLodgingsByHost);
 router.get('/lodgings/:lodgingId', LodgingController.getLodging);
 router.post('/users/:userId/lodgings', LodgingController.createLodging);
+router.put('/users/:userId/lodgings/:lodgingId', LodgingController.editLodging);
 router.patch('/users/:userId/lodgings/:lodgingId/deactivate', LodgingController.deactivateLodging);
 router.patch('/users/:userId/lodgings/:lodgingId/activate', LodgingController.activateLodging);
 
@@ -43,7 +45,9 @@ router.delete('/users/:userId/lodgings/:lodgingId/comments/:commentId', CommentC
 router.get('/lodgings/:lodgingId/comments', CommentController.listCommentsByLodging);
 
 router.get('/services', ServiceController.findAllServices);
+router.get('/services/:serviceId', ServiceController.getService);
 router.post('/services', ServiceController.createService);
+router.put('/services/:serviceId', ServiceController.editService);
 
 router.get('/civil-status', CivilStatusController.getAllCivilStatus);
 router.get('/roles', RoleController.getAllRoles);
