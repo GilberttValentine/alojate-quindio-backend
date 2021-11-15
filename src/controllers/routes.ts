@@ -10,7 +10,7 @@ import * as ReservationController from './reservationController';
 import * as CommentController from './commentController';
 import * as MunicipalityController from './municipalityController';
 import * as ServiceController from './serviceController';
-
+import * as SecurityController from './securityController';
 export const router = express.Router();
 
 router.get('/lodgings', LodgingController.getAllLodgings);
@@ -54,3 +54,6 @@ router.get('/roles', RoleController.getAllRoles);
 router.get('/study-levels', StudyLevelController.getAllStudyLevels);
 router.get('/languages', LanguageController.getAllLanguages);
 router.get('/municipalities', MunicipalityController.getAllMunicipalities);
+
+router.post('/security/login', SecurityController.login);
+router.post('/security/validate-token', SecurityController.validateToken);
