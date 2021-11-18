@@ -390,7 +390,6 @@ describe('flow from host api', () => {
             study_level_id: 2,
             role_id: 1
         }
-        const host = await User.query().insert(hostToCreate)
         const languages = { languagesId: [1, 5, 2, 5, 2, 2] }
 
 

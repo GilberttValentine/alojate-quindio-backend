@@ -22,7 +22,6 @@ export const createUser = async (user: UserShape) => {
 
     if (userToFind) throw new BusinessError('User already exist')
 
-
     if (!EmailValidator.validate(user.email)) throw new BusinessError('Email is not valid.');
 
     user.password = await hashSomePassowrd(user.password)
