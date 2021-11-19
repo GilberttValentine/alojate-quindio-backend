@@ -36,7 +36,7 @@ export async function seed(knex: Knex): Promise<void> {
       stratum: 8,
       civil_status_id: 1,
       study_level_id: 1,
-      role_id: 2
+      role_id: 4
     },
   ]);
 }

@@ -20,21 +20,23 @@ export const login = async (email: string, password: string): Promise<string> =>
     }
 
     const payload = {
+        id: userToFind.id,
         email: userToFind.email,
-        role: userToFind.role_id
+        role: userToFind.role_id,
+        name: userToFind.first_name,
+        url_picture: userToFind.url_picture
     }
 
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: TOKEN_EXPIRATION });
 
-    return token
+    return token;
 }
 
 export const validateToken = async (token: string): Promise<object> => {
     try {
         const payload = jwt.verify(token, JWT_SECRET);
 
-        return await payload
-
+        return await payload;
     } catch (error) {
         throw new UnauthorizedError('Invalid token');
     }

@@ -18,6 +18,7 @@ export async function up(knex: Knex): Promise<void> {
         table.boolean('actual_state').notNullable();
         table.float('night_value').notNullable();
         table.float('qualification').notNullable();
+        table.string('url_pictures').notNullable();
         table.timestamps(true, true);
     });
 }

@@ -10,6 +10,7 @@ export default class Reservation extends Model {
     end_date!: Date;
     night_value!: number;
     actual_state!: number;
+    persons_amount!:number;
 
     static get tableName() {
         return 'reservations';

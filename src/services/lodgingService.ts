@@ -46,15 +46,15 @@ export const createLodging = async (userId: number, lodging: LodgingShape, servi
     const serviceLodging = {
       service_id: Number(serviceInfomation?.service_id),
       lodging_id: lodgingId,
-      description: String(serviceInfomation?.description)
+      description: ""
     };
 
     await ServiceLodgingRepository.create(serviceLodging);
   });
 };
 
-export const getLodging = async (lodgingId: number): Promise<LodgingShape> => {
-  const lodging = await LodgingRepository.findById(lodgingId);
+export const getLodging = async (lodgingId: number) => {
+  const lodging = await LodgingRepository.getLodgingById(lodgingId);
 
   if (!lodging) throw new NotFoundError("Lodging doesn't exist");
 
@@ -99,16 +99,16 @@ export const activateLodging = async (userId: number, lodgingId: number) => {
   await LodgingRepository.updateActualState(lodgingId, true);
 }
 
-export const getLodgingsByHost = async (page: number, filters: LodgingFilters | null, userId:number): Promise<object> => {
+export const getLodgingsByHost = async (page: number, filters: LodgingFilters | null, userId: number): Promise<object> => {
   page = page || page >= 0 ? page : 0;
 
   const user = await UserRepository.findById(userId);
 
   if (!user) throw new NotFoundError("User doesn't exist");
 
-  if(!user.actual_state) throw new BusinessError("User is deactivate");
+  if (!user.actual_state) throw new BusinessError("User is deactivate");
 
-  if(user.role_id == USER_ROLE_ID || user.role_id == GUEST_ROLE_ID) throw new NotFoundError("User doesn't have those permissions");
+  if (user.role_id == USER_ROLE_ID || user.role_id == GUEST_ROLE_ID) throw new NotFoundError("User doesn't have those permissions");
 
   return await LodgingRepository.getLodgingsByHost(page, filters, userId);
 };

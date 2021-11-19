@@ -19,7 +19,8 @@ export default class Lodging extends Model {
     actual_state!: boolean;
     night_value!: number;
     qualification!: number;
-    services!: Array<string>;
+    services!: Array<number>;
+    url_pictures!: number;
 
     static get tableName() {
         return 'lodgings';

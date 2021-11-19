@@ -140,7 +140,7 @@ export const findUserById = async (req: Request, res: Response, next: NextFuncti
     } catch (error: any) {
         const status = error.status || 500;
 
-        logger.error(`Error in userController.activateUser: ${error.message}`);
+        logger.error(`Error in userController.findUserById: ${error.message}`);
 
         res.status(status).send({ 'status': error.status, 'message': error.message }).end();
         return next(error)

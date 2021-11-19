@@ -10,17 +10,17 @@ import CommentsFilters from "../models/requests/listCommentsLodgingFilters";
 export const createComment = async (userId: number, lodgingId: number, comment: CommentShape) => {
   const user = await UserRepository.findById(userId);
 
-  if(!user) throw new NotFoundError("User doesn't exist");
-  
-  if(!user.actual_state) throw new BusinessError("User is deactivate");
+  if (!user) throw new NotFoundError("User doesn't exist");
+
+  if (!user.actual_state) throw new BusinessError("User is deactivate");
 
   if (user.role_id == USER_ROLE_ID || user.role_id == HOST_ROLE_ID) throw new UnauthorizedError("User doesn't have those permissions");
 
   const lodging = await LodgingRepository.findById(lodgingId);
 
-  if(!lodging) throw new NotFoundError("Lodging doesn't exist");
-  
-  if(!lodging.actual_state) throw new BusinessError("Lodging is deactivate");
+  if (!lodging) throw new NotFoundError("Lodging doesn't exist");
+
+  if (!lodging.actual_state) throw new BusinessError("Lodging is deactivate");
 
   comment.user_id = userId;
   comment.lodging_id = lodgingId;
@@ -37,7 +37,7 @@ export const createComment = async (userId: number, lodgingId: number, comment: 
     score += element.veracity;
   });
 
-  score = score/(reviews.length*4);
+  score = score / (reviews.length * 4);
 
   await LodgingRepository.recalculateScore(lodgingId, score);
 }
@@ -45,23 +45,23 @@ export const createComment = async (userId: number, lodgingId: number, comment: 
 export const editComment = async (userId: number, lodgingId: number, commentId: number, description: string) => {
   const user = await UserRepository.findById(userId);
 
-  if(!user) throw new NotFoundError("User doesn't exist");
-  
-  if(!user.actual_state) throw new BusinessError("User is deactivate");
+  if (!user) throw new NotFoundError("User doesn't exist");
+
+  if (!user.actual_state) throw new BusinessError("User is deactivate");
 
   if (user.role_id == USER_ROLE_ID || user.role_id == HOST_ROLE_ID) throw new UnauthorizedError("User doesn't have those permissions");
 
   const lodging = await LodgingRepository.findById(lodgingId);
 
-  if(!lodging) throw new NotFoundError("Lodging doesn't exist");
-  
-  if(!lodging.actual_state) throw new BusinessError("Lodging is deactivate");
+  if (!lodging) throw new NotFoundError("Lodging doesn't exist");
+
+  if (!lodging.actual_state) throw new BusinessError("Lodging is deactivate");
 
   const comment = await CommentRepository.findById(commentId);
 
-  if(!comment) throw new NotFoundError("Comment doesn't exist");
+  if (!comment) throw new NotFoundError("Comment doesn't exist");
 
-  if(comment.user_id != userId) throw new UnauthorizedError("User doesn't have those permissions");
+  if (comment.user_id != userId) throw new UnauthorizedError("User doesn't have those permissions");
 
   await CommentRepository.editComment(commentId, description);
 }
@@ -69,23 +69,23 @@ export const editComment = async (userId: number, lodgingId: number, commentId: 
 export const deleteComment = async (userId: number, lodgingId: number, commentId: number) => {
   const user = await UserRepository.findById(userId);
 
-  if(!user) throw new NotFoundError("User doesn't exist");
-  
-  if(!user.actual_state) throw new BusinessError("User is deactivate");
+  if (!user) throw new NotFoundError("User doesn't exist");
+
+  if (!user.actual_state) throw new BusinessError("User is deactivate");
 
   if (user.role_id == USER_ROLE_ID || user.role_id == HOST_ROLE_ID) throw new UnauthorizedError("User doesn't have those permissions");
 
   const lodging = await LodgingRepository.findById(lodgingId);
 
-  if(!lodging) throw new NotFoundError("Lodging doesn't exist");
-  
-  if(!lodging.actual_state) throw new BusinessError("Lodging is deactivate");
+  if (!lodging) throw new NotFoundError("Lodging doesn't exist");
+
+  if (!lodging.actual_state) throw new BusinessError("Lodging is deactivate");
 
   const comment = await CommentRepository.findById(commentId);
 
-  if(!comment) throw new NotFoundError("Comment doesn't exist");
+  if (!comment) throw new NotFoundError("Comment doesn't exist");
 
-  if(comment.user_id != userId) throw new UnauthorizedError("User doesn't have those permissions");
+  if (comment.user_id != userId) throw new UnauthorizedError("User doesn't have those permissions");
 
   await CommentRepository.deleteComment(commentId);
 
@@ -99,11 +99,15 @@ export const deleteComment = async (userId: number, lodgingId: number, commentId
     score += element.veracity;
   });
 
-  score = score/(reviews.length*4);
+  score = score / (reviews.length * 4);
 
   await LodgingRepository.recalculateScore(lodgingId, score);
 }
 
-export const listCommentsByLodging = async (lodgingId: number, filters: CommentsFilters, page?: number): Promise<Page<Comment>>=> {
+export const listCommentsByLodging = async (lodgingId: number, filters: CommentsFilters, page?: number): Promise<Page<Comment>> => {
   return await CommentRepository.listCommentsByLodging(lodgingId, filters, page);
+}
+
+export const getAllComments = async (): Promise<Page<Comment>> => {
+  return await CommentRepository.getAllComments();
 }
