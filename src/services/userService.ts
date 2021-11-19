@@ -17,7 +17,6 @@ import * as EmailValidator from 'email-validator';
 
 
 export const createUser = async (user: UserShape) => {
-
     const userToFind = await UserRepository.findByMail(user.email);
 
     if (userToFind) throw new BusinessError('User already exist')

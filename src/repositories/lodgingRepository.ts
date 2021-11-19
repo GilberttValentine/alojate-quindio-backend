@@ -6,7 +6,7 @@ export const create = async (lodging: LodgingShape): Promise<LodgingShape> => {
   return await Lodging.query().insert(lodging);
 }
 
-export const recalculateScore = async(idLodging: number, score: number) => {
+export const recalculateScore = async (idLodging: number, score: number) => {
   await Lodging.query().patch({ qualification: score }).findById(idLodging)
 }
 
@@ -20,6 +20,36 @@ export const update = async (id: number, lodging: LodgingShape): Promise<number>
 
 export const findById = async (id: number): Promise<LodgingShape> => {
   return await Lodging.query().findById(id);
+}
+
+export const getLodgingById = async(id:number) => {
+  return await Lodging.query()
+    .select(
+      'lodgings.id as id',
+      'lodgings.name as name',
+      raw(`jsonb_build_object('id', us.id, 'name', us."first_name" || ' ' || us."second_name" || ' ' || us."first_lastname" || ' ' || us."second_lastname" , 'photo', us."url_picture") as user`),
+      raw(`jsonb_build_object('id', m.id, 'name', m."name") as municipality`),
+      raw(`jsonb_build_object('id', tl.id, 'name', tl."name") as type`),
+      'lodgings.persons_amount',
+      'lodgings.accesibility',
+      'lodgings.direction',
+      'lodgings.room_quantity',
+      'lodgings.bed_quantity',
+      'lodgings.bathroom_quantity',
+      'lodgings.night_value',
+      raw(`array_agg(distinct jsonb_build_object('id', s.id, 'name', s.name)) as services`),
+      'lodgings.actual_state',
+      'lodgings.url_pictures',
+      raw(`jsonb_build_object('qualification',lodgings.qualification, 'count', COUNT(distinct c)) as comments`),
+    )
+    .innerJoin('services_lodgings as sl', 'lodgings.id', 'sl.lodging_id')
+    .innerJoin('services as s', 'sl.service_id', 's.id')
+    .innerJoin('users as us', 'lodgings.user_id', 'us.id')
+    .innerJoin('municipalities as m', 'm.id', 'lodgings.municipality_id')
+    .innerJoin('types_lodging as tl', 'tl.id', 'lodgings.type_id')
+    .leftJoin('comments as c', 'c.lodging_id', 'lodgings.id')
+    .groupByRaw(`lodgings.id, m.id, tl.id, us.id`)
+    .findById(id);
 }
 
 export const getAllLodgings = async (page: number, filters: LodgingFilters | null): Promise<object> => {
@@ -37,12 +67,11 @@ export const getAllLodgings = async (page: number, filters: LodgingFilters | nul
       'lodgings.bed_quantity',
       'lodgings.bathroom_quantity',
       'lodgings.night_value',
-      raw(`array_agg(distinct jsonb_build_object('id', s.id, 'name', s.name)) as services`),
       'lodgings.actual_state',
+      'lodgings.url_pictures',
       raw(`jsonb_build_object('qualification',lodgings.qualification, 'count', COUNT(distinct c)) as comments`),
     )
     .innerJoin('services_lodgings as sl', 'lodgings.id', 'sl.lodging_id')
-    .innerJoin('services as s', 'sl.service_id', 's.id')
     .innerJoin('users as us', 'lodgings.user_id', 'us.id')
     .innerJoin('municipalities as m', 'm.id', 'lodgings.municipality_id')
     .innerJoin('types_lodging as tl', 'tl.id', 'lodgings.type_id')
@@ -68,7 +97,7 @@ export const getAllLodgings = async (page: number, filters: LodgingFilters | nul
       }
     })
     .page(page ? page : 0, 10)
-    .orderBy('id', 'asc');
+    .orderBy('qualification', 'desc');
 
   return await lodgins;
 }
@@ -102,7 +131,7 @@ export const getLodgingsByHost = async (page: number, filters: LodgingFilters | 
     .groupByRaw(`lodgings.id, m.id, tl.id, us.id`)
     .where((builder) => {
       if (filters) {
-        if (filters.lodging_name) builder.whereComposite('lodgings.name', 'LIKE',`%${filters.lodging_name}%`);
+        if (filters.lodging_name) builder.whereComposite('lodgings.name', 'LIKE', `%${filters.lodging_name}%`);
         if (filters.lodging_state != undefined) builder.where('lodging.actual_state', filters.lodging_state);
       }
     })

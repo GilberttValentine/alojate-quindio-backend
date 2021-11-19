@@ -9,6 +9,7 @@ export async function up(knex: Knex): Promise<void> {
         table.timestamp('start_date').notNullable();
         table.timestamp('end_date').notNullable();
         table.float('night_value').notNullable();
+        table.integer('persons_amount').notNullable();
         table.integer('actual_state').references('id').inTable('reservation_states');
         table.timestamps(true, true);
     });
