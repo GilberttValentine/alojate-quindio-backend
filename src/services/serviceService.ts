@@ -1,4 +1,4 @@
-import { BusinessError, NotFoundError, UnauthorizedError } from "../utils/ErrorHandlerMiddleware";
+import { NotFoundError } from "../utils/ErrorHandlerMiddleware";
 import { ServiceShape } from '../models/DAO/service';
 import * as ServiceRepository from '../repositories/serviceRepository';
 
@@ -22,6 +22,6 @@ export const editService = async (serviceId: number, name: string) => {
   const service = await ServiceRepository.findById(serviceId);
 
   if (!service) throw new NotFoundError("Service doesn't exist");
-  
+
   await ServiceRepository.editService(serviceId, name);
 }

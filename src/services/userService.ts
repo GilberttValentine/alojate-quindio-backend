@@ -28,7 +28,9 @@ export const createUser = async (user: UserShape) => {
     user.civil_status_id = DEFAULT_CIVIL_STATUS_ID
     user.study_level_id = DEFAULT_STUDY_LEVEL_ID
     user.role_id = USER_ID
-    await UserRepository.createUser(user)
+    user.actual_state = true
+
+    await UserRepository.createUser(user);
 }
 
 export const createHost = async (id: number, languagesIdList: number[]) => {
@@ -198,14 +200,13 @@ export const deactivateUser = async (id: number) => {
 }
 
 export const findUserById = async (id: number): Promise<UserShape> => {
+    const userToFind = await UserRepository.findUserById(id);
 
-    const userToFind = await UserRepository.findById(id);
+    if (!userToFind) throw new NotFoundError('User not founded');
 
-    if (userToFind.role_id === ADMIN_ROLE_ID) throw new UnauthorizedError('Unreachable request')
+    if (userToFind.role_id === ADMIN_ROLE_ID) throw new UnauthorizedError('Unreachable request');
 
-    if (!userToFind) throw new NotFoundError('User not founded')
-
-    return await UserRepository.findById(id)
+    return userToFind;
 }
 
 export const findAllUsers = async (page: number): Promise<object> => {
