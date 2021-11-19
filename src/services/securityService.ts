@@ -23,7 +23,8 @@ export const login = async (email: string, password: string): Promise<string> =>
         id: userToFind.id,
         email: userToFind.email,
         role: userToFind.role_id,
-        name: userToFind.first_name
+        name: userToFind.first_name,
+        url_picture: userToFind.url_picture
     }
 
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: TOKEN_EXPIRATION });
