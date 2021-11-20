@@ -22,9 +22,10 @@ export const findUserById = async (id: number): Promise<UserShape> => {
       'users.civil_status_id',
       'users.study_level_id',
       'users.role_id',
-      raw(`array_agg(distinct jsonb_build_object('id', lan.language_id)) as languages`)
+      raw(`array_agg(distinct jsonb_build_object('id', lan.language_id, 'name', lang.language_name)) as languages`)
     )
     .leftJoin('hosts_languages as lan', 'lan.user_id', 'users.id')
+    .leftJoin('languages as lang', 'lang.id', 'lan.language_id')
     .groupBy('users.id')
     .findById(id);
 

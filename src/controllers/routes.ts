@@ -11,6 +11,7 @@ import * as CommentController from './commentController';
 import * as MunicipalityController from './municipalityController';
 import * as ServiceController from './serviceController';
 import * as SecurityController from './securityController';
+import * as TypeLodgingController from './typeLodgingController';
 export const router = express.Router();
 
 router.get('/lodgings', LodgingController.getAllLodgings);
@@ -56,6 +57,7 @@ router.get('/study-levels', StudyLevelController.getAllStudyLevels);
 router.get('/languages', LanguageController.getAllLanguages);
 router.post('/languages', LanguageController.getLanguagesByIds);
 router.get('/municipalities', MunicipalityController.getAllMunicipalities);
+router.get('/type-lodging', TypeLodgingController.getAllLodgingsTypes);
 
 router.post('/security/login', SecurityController.login);
 router.post('/security/validate-token', SecurityController.validateToken);
