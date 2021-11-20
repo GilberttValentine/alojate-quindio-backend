@@ -27,7 +27,8 @@ export const getLodgingById = async(id:number) => {
     .select(
       'lodgings.id as id',
       'lodgings.name as name',
-      raw(`jsonb_build_object('id', us.id, 'name', us."first_name" || ' ' || us."second_name" || ' ' || us."first_lastname" || ' ' || us."second_lastname" , 'photo', us."url_picture", 'email', us.email, 'created_at', us.created_at, 'languages', array_agg(distinct jsonb_build_object('id', lan.language_id))) as user`),
+      raw(`jsonb_build_object('id', us.id, 'name', us."first_name" || ' ' || us."second_name" || ' ' || us."first_lastname" || ' ' || us."second_lastname" , 
+      'photo', us."url_picture", 'email', us.email, 'created_at', us.created_at, 'languages', array_agg(distinct jsonb_build_object('id', lan.language_id, 'name', lang.language_name))) as user`),
       raw(`jsonb_build_object('id', m.id, 'name', m."name") as municipality`),
       raw(`jsonb_build_object('id', tl.id, 'name', tl."name") as type`),
       'lodgings.persons_amount',
