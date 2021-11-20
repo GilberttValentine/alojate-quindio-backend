@@ -22,7 +22,7 @@ export const findById = async (id: number): Promise<LodgingShape> => {
   return await Lodging.query().findById(id);
 }
 
-export const getLodgingById = async(id:number) => {
+export const getLodgingById = async (id: number) => {
   return await Lodging.query()
     .select(
       'lodgings.id as id',
