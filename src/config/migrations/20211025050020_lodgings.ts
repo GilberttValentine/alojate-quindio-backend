@@ -14,7 +14,7 @@ export async function up(knex: Knex): Promise<void> {
         table.integer('room_quantity').notNullable();
         table.integer('bed_quantity').notNullable();
         table.integer('bathroom_quantity').notNullable();
-        table.string('description').notNullable();
+        table.string('description', 5000).notNullable();
         table.boolean('actual_state').notNullable();
         table.float('night_value').notNullable();
         table.float('qualification').notNullable();

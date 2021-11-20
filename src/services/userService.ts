@@ -204,7 +204,7 @@ export const findUserById = async (id: number): Promise<UserShape> => {
 
     if (!userToFind) throw new NotFoundError('User not founded');
 
-    if (userToFind.role_id === ADMIN_ROLE_ID) throw new UnauthorizedError('Unreachable request');
+    //if (userToFind.role_id === ADMIN_ROLE_ID) throw new UnauthorizedError('Unreachable request');
 
     return userToFind;
 }
