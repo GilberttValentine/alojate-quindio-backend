@@ -8,3 +8,11 @@ export const getAllLanguages = async (): Promise<object> => {
 
     return languages;
 }
+
+export const getLanguagesByIds = async (ids: number[]): Promise<object> => {
+    const languages = await LanguageRepository.getLanguagesByIds(ids);
+
+    if (Object.values(languages).length === 0) throw new NotFoundError('Languages not founded');
+
+    return languages;
+}

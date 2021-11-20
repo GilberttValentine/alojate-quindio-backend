@@ -9,7 +9,7 @@ export async function up(knex: Knex): Promise<void> {
         table.integer('municipality_id').references('id').inTable('municipalities');
         table.integer('type_id').references('id').inTable('types_lodging');
         table.integer('persons_amount').notNullable();
-        table.string('accesibility').notNullable();
+        table.string('accesibility', 5000).notNullable();
         table.string('direction').notNullable();
         table.integer('room_quantity').notNullable();
         table.integer('bed_quantity').notNullable();
