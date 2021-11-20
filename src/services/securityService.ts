@@ -10,7 +10,7 @@ const {
     TOKEN_EXPIRATION = '1d',
 } = process.env;
 
-export const login = async (email: string, password: string): Promise<string> => {
+export const login = async (email: string, password: string): Promise<object> => {
     const userToFind = await UserRepository.findByMail(email)
 
     if (!userToFind) throw new UnauthorizedError('Invalid credentials')
@@ -29,7 +29,7 @@ export const login = async (email: string, password: string): Promise<string> =>
 
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn: TOKEN_EXPIRATION });
 
-    return token;
+    return { "token": token };
 }
 
 export const validateToken = async (token: string): Promise<object> => {
