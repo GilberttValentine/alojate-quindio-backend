@@ -33,6 +33,7 @@ export const getLodgingById = async(id:number) => {
       'lodgings.persons_amount',
       'lodgings.accesibility',
       'lodgings.direction',
+      'lodgings.description',
       'lodgings.room_quantity',
       'lodgings.bed_quantity',
       'lodgings.bathroom_quantity',
