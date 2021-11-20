@@ -55,6 +55,7 @@ router.get('/civil-status', CivilStatusController.getAllCivilStatus);
 router.get('/roles', RoleController.getAllRoles);
 router.get('/study-levels', StudyLevelController.getAllStudyLevels);
 router.get('/languages', LanguageController.getAllLanguages);
+router.post('/languages', LanguageController.getLanguagesByIds);
 router.get('/municipalities', MunicipalityController.getAllMunicipalities);
 router.get('/type-lodging', TypeLodgingController.getAllLodgingsTypes);
 
