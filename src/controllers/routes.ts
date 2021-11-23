@@ -34,7 +34,7 @@ router.patch('/users/:userId/deactivate', UserController.deactivateUser)
 router.get('/users/:userId', UserController.findUserById)
 
 router.post('/users/:userId/lodgings/:lodgingId/reservations', ReservationController.createReservation);
-router.get('/lodgings/:lodgingId/check-valid-dates', ReservationController.validateLodgingDisponibility);
+router.post('/lodgings/:lodgingId/check-valid-dates', ReservationController.validateLodgingDisponibility);
 router.patch('/users/:userId/reservations/:reservationId/cancel', ReservationController.cancelReservation);
 router.get('/users/:userId/reservations/:reservationId', ReservationController.findReservation);
 router.get('/users/:userId/reservations', ReservationController.listReservationsByUser);

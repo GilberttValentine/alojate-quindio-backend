@@ -61,6 +61,11 @@ export const createHost = async (id: number, languagesIdList: number[]) => {
 
 export const createGuest = async (id: number, stratum: number, studyLevelId: number, civilStatusId: number) => {
 
+    console.log(id)
+    console.log(stratum)
+    console.log(studyLevelId)
+    console.log(civilStatusId)
+    
     const userToFind = await UserRepository.findById(id);
 
     if (!userToFind) throw new NotFoundError('User not founded')
@@ -102,7 +107,6 @@ export const updateUser = async (id: number, user: UserShape) => {
 
     user = {
         ...user,
-        password: await hashSomePassowrd(user.password),
         stratum: userToFind.stratum,
         civil_status_id: userToFind.civil_status_id,
         study_level_id: userToFind.study_level_id
@@ -142,7 +146,6 @@ export const updateHost = async (id: number, languagesIdList: number[]) => {
 }
 
 export const updateGuest = async (id: number, stratum: number, studyLevelId: number, civilStatusId: number) => {
-
     const userToFind = await UserRepository.findById(id);
 
     if (!userToFind) throw new NotFoundError('User not founded')

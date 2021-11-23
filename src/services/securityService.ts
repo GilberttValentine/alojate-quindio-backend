@@ -15,6 +15,8 @@ export const login = async (email: string, password: string): Promise<object> =>
 
     if (!userToFind) throw new UnauthorizedError('Invalid credentials')
 
+    if(!userToFind.actual_state) throw new UnauthorizedError('User deactivate')
+
     if (!await comparePassword(password, userToFind.password)) {
         throw new UnauthorizedError('Invalid credentials');
     }
