@@ -61,6 +61,7 @@ router.get('/municipalities', MunicipalityController.getAllMunicipalities);
 router.get('/municipalities/:id', MunicipalityController.getMunicipalityById);
 router.get('/type-lodging', TypeLodgingController.getAllLodgingsTypes);
 router.get('/type-lodging/:id', TypeLodgingController.getLodgingTypeById);
+router.get('/type-lodging', TypeLodgingController.getAllLodgingsTypes);
 
 router.post('/security/login', SecurityController.login);
 router.post('/security/validate-token', SecurityController.validateToken);

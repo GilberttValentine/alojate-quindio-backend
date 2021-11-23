@@ -22,12 +22,13 @@ export const findById = async (id: number): Promise<LodgingShape> => {
   return await Lodging.query().findById(id);
 }
 
-export const getLodgingById = async(id:number) => {
+export const getLodgingById = async (id: number) => {
   return await Lodging.query()
     .select(
       'lodgings.id as id',
       'lodgings.name as name',
-      raw(`jsonb_build_object('id', us.id, 'name', us."first_name" || ' ' || us."second_name" || ' ' || us."first_lastname" || ' ' || us."second_lastname" , 'photo', us."url_picture", 'email', us.email, 'created_at', us.created_at, 'languages', array_agg(distinct jsonb_build_object('id', lan.language_id))) as user`),
+      raw(`jsonb_build_object('id', us.id, 'name', us."first_name" || ' ' || us."second_name" || ' ' || us."first_lastname" || ' ' || us."second_lastname" , 
+      'photo', us."url_picture", 'email', us.email, 'created_at', us.created_at, 'languages', array_agg(distinct jsonb_build_object('id', lan.language_id, 'name', lang.language_name))) as user`),
       raw(`jsonb_build_object('id', m.id, 'name', m."name") as municipality`),
       raw(`jsonb_build_object('id', tl.id, 'name', tl."name") as type`),
       'lodgings.persons_amount',
@@ -47,6 +48,7 @@ export const getLodgingById = async(id:number) => {
     .innerJoin('services as s', 'sl.service_id', 's.id')
     .innerJoin('users as us', 'lodgings.user_id', 'us.id')
     .leftJoin('hosts_languages as lan', 'lan.user_id', 'us.id')
+    .leftJoin('languages as lang', 'lang.id', 'lan.language_id')
     .innerJoin('municipalities as m', 'm.id', 'lodgings.municipality_id')
     .innerJoin('types_lodging as tl', 'tl.id', 'lodgings.type_id')
     .leftJoin('comments as c', 'c.lodging_id', 'lodgings.id')
