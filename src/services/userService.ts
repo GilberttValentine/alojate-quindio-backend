@@ -60,10 +60,7 @@ export const createHost = async (id: number, languagesIdList: number[]) => {
 }
 
 export const createGuest = async (id: number, stratum: number, studyLevelId: number, civilStatusId: number) => {
-<<<<<<< HEAD
-=======
-
->>>>>>> eeaaebf (Deleting Console.log())
+    
     const userToFind = await UserRepository.findById(id);
 
     if (!userToFind) throw new NotFoundError('User not founded')
