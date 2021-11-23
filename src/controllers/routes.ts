@@ -12,10 +12,11 @@ import * as MunicipalityController from './municipalityController';
 import * as ServiceController from './serviceController';
 import * as SecurityController from './securityController';
 import * as TypeLodgingController from './typeLodgingController';
+
 export const router = express.Router();
 
-router.get('/lodgings', LodgingController.getAllLodgings);
-router.get('/user/:userId/lodgings', LodgingController.getLodgingsByHost);
+router.post('/lodgings', LodgingController.getAllLodgings);
+router.post('/user/:userId/lodgings', LodgingController.getLodgingsByHost);
 router.get('/lodgings/:lodgingId', LodgingController.getLodging);
 router.post('/users/:userId/lodgings', LodgingController.createLodging);
 router.put('/users/:userId/lodgings/:lodgingId', LodgingController.editLodging);
@@ -57,6 +58,9 @@ router.get('/study-levels', StudyLevelController.getAllStudyLevels);
 router.get('/languages', LanguageController.getAllLanguages);
 router.post('/languages', LanguageController.getLanguagesByIds);
 router.get('/municipalities', MunicipalityController.getAllMunicipalities);
+router.get('/municipalities/:id', MunicipalityController.getMunicipalityById);
+router.get('/type-lodging', TypeLodgingController.getAllLodgingsTypes);
+router.get('/type-lodging/:id', TypeLodgingController.getLodgingTypeById);
 router.get('/type-lodging', TypeLodgingController.getAllLodgingsTypes);
 
 router.post('/security/login', SecurityController.login);
