@@ -139,7 +139,6 @@ export const updateHost = async (id: number, languagesIdList: number[]) => {
 }
 
 export const updateGuest = async (id: number, stratum: number, studyLevelId: number, civilStatusId: number) => {
-
     const userToFind = await UserRepository.findById(id);
 
     if (!userToFind) throw new NotFoundError('User not founded')
