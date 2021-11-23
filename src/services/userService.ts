@@ -56,11 +56,10 @@ export const createHost = async (id: number, languagesIdList: number[]) => {
     validLanguagesList.forEach(async (it: Language) => {
         const hostLanguage: HostLanguageShape = { user_id: userToFind.id, language_id: it.id }
         await HostLanguageRepository.createHostLanguage(hostLanguage)
-    })
+    });
 }
 
 export const createGuest = async (id: number, stratum: number, studyLevelId: number, civilStatusId: number) => {
-
     const userToFind = await UserRepository.findById(id);
 
     if (!userToFind) throw new NotFoundError('User not founded')
@@ -89,11 +88,10 @@ export const createGuest = async (id: number, stratum: number, studyLevelId: num
         role_id: userToFind.role_id
     }
 
-    await UserRepository.createGuest(id, updatedGuest)
+    await UserRepository.createGuest(id, updatedGuest);
 }
 
 export const updateUser = async (id: number, user: UserShape) => {
-
     const userToFind = await UserRepository.findById(id);
 
     if (!userToFind) throw new NotFoundError('User not founded')
@@ -102,13 +100,12 @@ export const updateUser = async (id: number, user: UserShape) => {
 
     user = {
         ...user,
-        password: await hashSomePassowrd(user.password),
         stratum: userToFind.stratum,
         civil_status_id: userToFind.civil_status_id,
         study_level_id: userToFind.study_level_id
     }
 
-    await UserRepository.updateUser(id, user)
+    await UserRepository.updateUser(id, user);
 }
 
 export const updateHost = async (id: number, languagesIdList: number[]) => {
