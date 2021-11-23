@@ -38,7 +38,7 @@ export const createHost = async (req: Request, res: Response, next: NextFunction
 export const createGuest = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { body, params } = req;
-        const response = await userService.createGuest(parseInt(params.userId), body.stratum, body.studyLevelId, body.civilStatus);
+        const response = await userService.createGuest(parseInt(params.userId), body.stratum, body.studyLevelId, body.civilStatusId);
 
         res.send(response);
     } catch (error: any) {
@@ -86,7 +86,7 @@ export const updateHost = async (req: Request, res: Response, next: NextFunction
 export const updateGuest = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { body, params } = req;
-        const response = await userService.updateGuest(parseInt(params.userId), body.stratum, body.studyLevelId, body.civilStatus);
+        const response = await userService.updateGuest(parseInt(params.userId), body.stratum, body.studyLevelId, body.civilStatusId);
 
         res.send(response);
     } catch (error: any) {
