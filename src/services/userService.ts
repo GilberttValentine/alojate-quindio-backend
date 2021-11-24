@@ -102,10 +102,10 @@ export const updateUser = async (id: number, user: UserShape) => {
 
     user = {
         ...user,
-        password: await hashSomePassowrd(user.password),
         stratum: userToFind.stratum,
         civil_status_id: userToFind.civil_status_id,
-        study_level_id: userToFind.study_level_id
+        study_level_id: userToFind.study_level_id,
+        role_id: userToFind.role_id
     }
 
     await UserRepository.updateUser(id, user)
