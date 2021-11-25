@@ -63,7 +63,7 @@ export const getAllLodgings = async (page: number, filters: LodgingFilters | nul
       'lodgings.name as name',
       raw(`jsonb_build_object('id', us.id, 'name', us."first_name" || ' ' || us."second_name" || ' ' || us."first_lastname" || ' ' || us."second_lastname" , 'photo', us."url_picture") as user`),
       raw(`jsonb_build_object('id', m.id, 'name', m."name") as municipality`),
-      raw(`jsonb_build_object('id', tl.id, 'name', tl."name") as type`),
+      raw(`jsonb_build_object('id', tl.id, 'name', tl."name") as type`),     
       'lodgings.persons_amount',
       'lodgings.accesibility',
       'lodgings.direction',
@@ -74,8 +74,10 @@ export const getAllLodgings = async (page: number, filters: LodgingFilters | nul
       'lodgings.actual_state',
       'lodgings.url_pictures',
       raw(`jsonb_build_object('qualification',lodgings.qualification, 'count', COUNT(distinct c)) as comments`),
+      raw(`array_agg(distinct jsonb_build_object('service_id', sl.service_id, 'description', sl.description)) as services`),
     )
     .innerJoin('services_lodgings as sl', 'lodgings.id', 'sl.lodging_id')
+    .innerJoin('services as s', 'sl.service_id', 's.id')
     .innerJoin('users as us', 'lodgings.user_id', 'us.id')
     .innerJoin('municipalities as m', 'm.id', 'lodgings.municipality_id')
     .innerJoin('types_lodging as tl', 'tl.id', 'lodgings.type_id')

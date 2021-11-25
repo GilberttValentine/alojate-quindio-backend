@@ -60,6 +60,7 @@ export const createHost = async (id: number, languagesIdList: number[]) => {
 }
 
 export const createGuest = async (id: number, stratum: number, studyLevelId: number, civilStatusId: number) => {
+    
     const userToFind = await UserRepository.findById(id);
 
     if (!userToFind) throw new NotFoundError('User not founded')
@@ -102,7 +103,8 @@ export const updateUser = async (id: number, user: UserShape) => {
         ...user,
         stratum: userToFind.stratum,
         civil_status_id: userToFind.civil_status_id,
-        study_level_id: userToFind.study_level_id
+        study_level_id: userToFind.study_level_id,
+        role_id: userToFind.role_id
     }
 
     await UserRepository.updateUser(id, user);
