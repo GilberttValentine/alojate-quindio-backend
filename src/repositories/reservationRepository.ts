@@ -132,7 +132,7 @@ export const findReservationsForHost = async (user_id: number, code?: number, ac
     .select(
       'reservations.id',
       raw(`jsonb_build_object('id', us.id, 'name', us."first_name" || ' ' || us."second_name", 'photo', us."url_picture") as guest`),
-      raw(`jsonb_build_object('id', ld.id, 'name', ld.name, 'type', tl.name, 'comments', jsonb_build_object('qualification', ld.qualification, 'count', COUNT(distinct c))::jsonb) as lodging`),
+      raw(`jsonb_build_object('id', ld.id, 'name', ld.name, 'url_pictures', ld.url_pictures, 'type', tl.name, 'comments', jsonb_build_object('qualification', ld.qualification, 'count', COUNT(distinct c))::jsonb) as lodging`),
       'reservations.start_date',
       'reservations.end_date',
       'reservations.night_value',

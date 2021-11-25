@@ -19,9 +19,10 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     }
 };
 
-export const validateToken = async  (req: Request, res: Response, next: NextFunction) => {
+export const validateToken = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { body } = req;
+
         const response = await securityService.validateToken(body.token);
 
         res.send(response);
