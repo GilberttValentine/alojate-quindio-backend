@@ -38,9 +38,9 @@ router.post('/users/:userId/lodgings/:lodgingId/reservations', ReservationContro
 router.post('/lodgings/:lodgingId/check-valid-dates', ReservationController.validateLodgingDisponibility);
 router.patch('/users/:userId/reservations/:reservationId/cancel', ReservationController.cancelReservation);
 router.get('/users/:userId/reservations/:reservationId', ReservationController.findReservation);
-router.get('/users/:userId/reservations', ReservationController.listReservationsByUser);
-router.get('/users/:userId/lodgings/reservations', ReservationController.findReservationsForHost);
-router.get('/users/:userId/lodgings/:lodgingId/reservations', ReservationController.listReservationsByLodging);
+router.post('/users/:userId/reservations', ReservationController.listReservationsByUser);
+router.post('/users/:userId/lodgings/reservations', ReservationController.findReservationsForHost);
+router.post('/users/:userId/lodgings/:lodgingId/reservations', ReservationController.listReservationsByLodging);
 
 router.post('/users/:userId/lodgings/:lodgingId/comments', CommentController.createComment);
 router.patch('/users/:userId/lodgings/:lodgingId/comments/:commentId', CommentController.editComment);

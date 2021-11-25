@@ -121,6 +121,7 @@ export const getLodgingsByHost = async (page: number, filters: LodgingFilters | 
       'lodgings.bed_quantity',
       'lodgings.bathroom_quantity',
       'lodgings.night_value',
+      'lodgings.url_pictures',
       raw(`array_agg(distinct jsonb_build_object('id', s.id, 'name', s.name)) as services`),
       'lodgings.actual_state',
       raw(`jsonb_build_object('qualification',lodgings.qualification, 'count', COUNT(distinct c)) as comments`),
